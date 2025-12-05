@@ -38,9 +38,7 @@ export const verifyToken = async (token) => {
     if (changedTime > decoded.iat) {
       await logger.error(
         "Token invalid - password changed after token issued",
-        {
-          userId: user._id,
-        }
+        { userId: user._id }
       );
       throw new ApiError(
         "🛑 Password changed recently. Please login again.",

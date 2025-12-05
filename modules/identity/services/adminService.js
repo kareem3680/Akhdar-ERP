@@ -28,7 +28,7 @@ export const createUserService = asyncHandler(async (body) => {
 
   sendEmail({
     email: newUser.email,
-    subject: "Welcome to Logistic System!",
+    subject: "Welcome to Styles Dispatch",
     message:
       "Your account has been successfully created!\nThank you for joining us.",
   }).catch((err) =>
@@ -42,9 +42,26 @@ export const createUserService = asyncHandler(async (body) => {
 export const getUsersService = asyncHandler(async (req) => {
   const result = await getAllService(userModel, req.query, "user");
 
+  const filtersForStats = result.finalFilter;
+
+  const total = await userModel.countDocuments(filtersForStats);
+  const drivers = await userModel.countDocuments({
+    ...filtersForStats,
+    role: "driver",
+  });
+  const admins = await userModel.countDocuments({
+    ...filtersForStats,
+    role: "admin",
+  });
+  const employee = await userModel.countDocuments({
+    ...filtersForStats,
+    role: "employee",
+  });
+
   await logger.info("Fetched all users");
 
   return {
+    stats: { total, drivers, admins, employee },
     data: result.data.map(sanitizeUser),
     results: result.results,
     paginationResult: result.paginationResult,
@@ -98,7 +115,7 @@ export const deactivateUserService = asyncHandler(async (id) => {
   );
 
   if (!user) {
-    throw new ApiError("User not found", 404);
+    throw new Error("User not found");
   }
 
   await logger.info("User deactivated", { id });
@@ -113,7 +130,7 @@ export const activateUserService = asyncHandler(async (id) => {
   );
 
   if (!user) {
-    throw new ApiError("User not found", 404);
+    throw new Error("User not found");
   }
 
   await logger.info("User activated", { id });

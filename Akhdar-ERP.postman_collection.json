@@ -10,6 +10,53 @@
 			"name": "Identity",
 			"item": [
 				{
+					"name": "refreshAccessToken",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let response = pm.response.json();\r",
+									"let accessToken = response.data?.accessToken;\r",
+									"pm.environment.set(\"JWT\", accessToken);\r",
+									"\r",
+									"let refreshToken = response.data?.refreshToken;\r",
+									"if (refreshToken) pm.environment.set(\"REFRESH_TOKEN\", refreshToken);"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"refreshToken\": \"{{REFRESH_TOKEN}}\"\n}"
+						},
+						"url": {
+							"raw": "{{MainHost}}/api/v1/auth/refresh",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"refresh"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "signUp",
 					"event": [
 						{
@@ -17,8 +64,11 @@
 							"script": {
 								"exec": [
 									"let response = pm.response.json();\r",
-									"let token = response.token;\r",
-									"pm.environment.set(\"JWT\", token)"
+									"let accessToken = response.accessToken;\r",
+									"pm.environment.set(\"JWT\", accessToken);\r",
+									"\r",
+									"let refreshToken = response.refreshToken;\r",
+									"pm.environment.set(\"REFRESH_TOKEN\", refreshToken);"
 								],
 								"type": "text/javascript",
 								"packages": {},
@@ -61,8 +111,11 @@
 							"script": {
 								"exec": [
 									"let response = pm.response.json();\r",
-									"let token = response.token;\r",
-									"pm.environment.set(\"JWT\", token)"
+									"let accessToken = response.accessToken;\r",
+									"pm.environment.set(\"JWT\", accessToken);\r",
+									"\r",
+									"let refreshToken = response.refreshToken;\r",
+									"pm.environment.set(\"REFRESH_TOKEN\", refreshToken);"
 								],
 								"type": "text/javascript",
 								"packages": {},
@@ -92,6 +145,41 @@
 								"v1",
 								"auth",
 								"logIn"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "logout",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/auth/logout",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"logout"
 							]
 						}
 					},
@@ -174,8 +262,11 @@
 							"script": {
 								"exec": [
 									"let response = pm.response.json();\r",
-									"let token = response.token;\r",
-									"pm.environment.set(\"JWT\", token)"
+									"let accessToken = response.accessToken;\r",
+									"pm.environment.set(\"JWT\", accessToken);\r",
+									"\r",
+									"let refreshToken = response.refreshToken;\r",
+									"pm.environment.set(\"REFRESH_TOKEN\", refreshToken);"
 								],
 								"type": "text/javascript",
 								"packages": {},
@@ -215,6 +306,444 @@
 								"v1",
 								"updatePassword",
 								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "forgetPassword",
+			"item": [
+				{
+					"name": "sendResetCode",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MainHost}}/api/v1/forgetPassword/sendResetCode",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"forgetPassword",
+								"sendResetCode"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "resendResetCode",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MainHost}}/api/v1/forgetPassword/resendResetCode",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"forgetPassword",
+								"resendResetCode"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "verifyResetCode",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"resetCode\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MainHost}}/api/v1/forgetPassword/verifyResetCode",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"forgetPassword",
+								"verifyResetCode"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "resetPassword",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let response = pm.response.json();\r",
+									"let accessToken = response.accessToken;\r",
+									"pm.environment.set(\"JWT\", accessToken);\r",
+									"\r",
+									"let refreshToken = response.refreshToken;\r",
+									"pm.environment.set(\"REFRESH_TOKEN\", refreshToken);"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\" : \"\",\r\n    \"newPassword\": \"\",\r\n    \"confirmNewPassword\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MainHost}}/api/v1/forgetPassword/resetPassword",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"forgetPassword",
+								"resetPassword"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "adminDashboard",
+			"item": [
+				{
+					"name": "createUser",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"\",\r\n    \"email\": \"\",\r\n    \"phone\": \"+\",\r\n    \"password\": \"\",\r\n    \"passwordConfirmation\": \"\",\r\n    \"position\": \"\",\r\n    \"role\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MainHost}}/api/v1/adminDashboard",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"adminDashboard"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllUsers",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/adminDashboard",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"adminDashboard"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "-jobId",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "jobId",
+									"disabled": true
+								},
+								{
+									"key": "fields",
+									"value": "name phone",
+									"disabled": true
+								},
+								{
+									"key": "from",
+									"value": "2025-11-01",
+									"disabled": true
+								},
+								{
+									"key": "to",
+									"value": "2025-12-01",
+									"disabled": true
+								},
+								{
+									"key": "jobId[lte]",
+									"value": "200",
+									"disabled": true
+								},
+								{
+									"key": "jobId[gte]",
+									"value": "120",
+									"disabled": true
+								},
+								{
+									"key": "active",
+									"value": "true",
+									"disabled": true
+								},
+								{
+									"key": "keyword",
+									"value": "Flutter",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "10",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getSpecificUser",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/adminDashboard/682cd24209b3cd29954d763e",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"adminDashboard",
+								"682cd24209b3cd29954d763e"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateUserRole",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"role\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MainHost}}/api/v1/adminDashboard/6787816668730d28fe99332f",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"adminDashboard",
+								"6787816668730d28fe99332f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deactivateUser",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/adminDashboard/deactivate/68d54eb71a883f6b507a26e0",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"adminDashboard",
+								"deactivate",
+								"68d54eb71a883f6b507a26e0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "activateUser",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/adminDashboard/activate/68d54eb71a883f6b507a26e0",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"adminDashboard",
+								"activate",
+								"68d54eb71a883f6b507a26e0"
 							]
 						}
 					},

@@ -1,4 +1,4 @@
-import { hash } from "bcryptjs";
+import { hash, compare } from "bcryptjs";
 import mongoose, { Schema, model } from "mongoose";
 import pkg from "mongoose-sequence";
 const AutoIncrement = pkg(mongoose);
@@ -66,6 +66,8 @@ const userSchema = new Schema(
       type: Date,
       default: Date.now,
     },
+    refreshToken: String,
+    refreshTokenExpires: Date,
   },
   { timestamps: true }
 );
@@ -75,6 +77,11 @@ userSchema.pre("save", async function (next) {
   this.password = await hash(this.password, 8);
   next();
 });
+
+userSchema.methods.compareRefreshToken = async function (token) {
+  if (!this.refreshToken) return false;
+  return await compare(token, this.refreshToken);
+};
 
 userSchema.plugin(AutoIncrement, { inc_field: "jobId", start_seq: 100 });
 

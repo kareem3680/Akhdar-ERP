@@ -3,9 +3,13 @@ import { compare } from "bcryptjs";
 
 import userModel from "../models/userModel.js";
 import ApiError from "../../../utils/apiError.js";
-import createToken from "../../../utils/createToken.js";
 import { sanitizeUser } from "../../../utils/sanitizeData.js";
 import Logger from "../../../utils/loggerService.js";
+import {
+  createAccessToken,
+  createRefreshToken,
+} from "../../../utils/createToken.js";
+
 const logger = new Logger("update-password");
 
 export const updateMyPasswordService = asyncHandler(
@@ -30,15 +34,23 @@ export const updateMyPasswordService = asyncHandler(
 
     user.password = newPassword;
     user.changedPasswordAt = Date.now();
-    await user.save();
 
-    const token = createToken(user._id);
+    // Create new tokens
+    const accessToken = createAccessToken(user._id);
+    const { token: refreshToken, hashed } = await createRefreshToken(user._id);
+
+    // Store new hashed refresh token in DB
+    user.refreshToken = hashed;
+    user.refreshTokenExpires = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000); // 30d
+
+    await user.save();
 
     await logger.info("Password updated successfully", { userId: user._id });
 
     return {
       user: sanitizeUser(user),
-      token,
+      accessToken,
+      refreshToken,
     };
   }
 );

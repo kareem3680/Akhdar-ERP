@@ -6,7 +6,8 @@ export const signUp = asyncHandler(async (req, res) => {
   res.status(201).json({
     message: "User registered successfully",
     data: result.user,
-    token: result.token,
+    accessToken: result.accessToken,
+    refreshToken: result.refreshToken,
   });
 });
 
@@ -15,7 +16,26 @@ export const logIn = asyncHandler(async (req, res) => {
   res.status(200).json({
     message: "Logged in successfully",
     data: result.user,
-    token: result.token,
+    accessToken: result.accessToken,
+    refreshToken: result.refreshToken,
+  });
+});
+
+export const refreshToken = asyncHandler(async (req, res) => {
+  const { refreshToken } = req.body;
+  const token = await authService.refreshTokenService(refreshToken);
+  res.status(200).json({
+    status: "success",
+    data: token,
+  });
+});
+
+export const logout = asyncHandler(async (req, res) => {
+  const userId = req.user._id;
+  const data = await authService.logoutService(userId);
+  res.status(200).json({
+    status: "success",
+    data,
   });
 });
 

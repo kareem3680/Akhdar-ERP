@@ -1,13 +1,17 @@
 import { compare } from "bcryptjs";
 import asyncHandler from "express-async-handler";
-
 import sendEmail from "../../../utils/sendEmail.js";
 import userModel from "../models/userModel.js";
-import createToken from "../../../utils/createToken.js";
 import { sanitizeUser } from "../../../utils/sanitizeData.js";
-import { verifyToken } from "../../../utils/verifyToken.js";
 import ApiError from "../../../utils/apiError.js";
 import Logger from "../../../utils/loggerService.js";
+import {
+  createAccessToken,
+  createRefreshToken,
+  verifyRefreshToken,
+} from "../../../utils/createToken.js";
+import { verifyToken } from "../../../middlewares/verifyTokenMiddleware.js";
+
 const logger = new Logger("auth");
 
 // Register user
@@ -21,11 +25,17 @@ export const registerUser = asyncHandler(async (userData, req) => {
   }
 
   const user = await userModel.create(userData);
-  const token = createToken(user._id);
+
+  // create tokens
+  const accessToken = createAccessToken(user._id);
+  const { token: refreshToken, hashed } = await createRefreshToken(user._id);
+  user.refreshToken = hashed;
+  user.refreshTokenExpires = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+  await user.save();
 
   sendEmail({
     email: user.email,
-    subject: "Welcome to Logistic System!",
+    subject: "Welcome to Styles Dispatch",
     message:
       "Your account has been successfully created!\nThank you for joining us.",
   }).catch((err) =>
@@ -33,7 +43,11 @@ export const registerUser = asyncHandler(async (userData, req) => {
   );
 
   await logger.info("User registered successfully", { email: user.email });
-  return { user: sanitizeUser(user), token };
+  return {
+    user: sanitizeUser(user),
+    accessToken,
+    refreshToken,
+  };
 });
 
 // Login user
@@ -58,9 +72,52 @@ export const loginUser = asyncHandler(async (email, password) => {
     throw new ApiError("🛑 Invalid email or password", 401);
   }
 
-  const token = createToken(user._id);
+  // create tokens
+  const accessToken = createAccessToken(user._id);
+  const { token: refreshToken, hashed } = await createRefreshToken(user._id);
+  user.refreshToken = hashed;
+  user.refreshTokenExpires = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+  await user.save();
+
   await logger.info("User logged in successfully", { email });
-  return { user: sanitizeUser(user), token };
+  return {
+    user: sanitizeUser(user),
+    accessToken,
+    refreshToken,
+  };
+});
+
+// Refresh token
+export const refreshTokenService = asyncHandler(async (token) => {
+  if (!token) throw new ApiError("Refresh token required", 401);
+
+  let decoded;
+  try {
+    decoded = verifyRefreshToken(token);
+  } catch (err) {
+    throw new ApiError("Invalid refresh token", 401);
+  }
+
+  const user = await userModel.findById(decoded.userId);
+  if (!user) throw new ApiError("User not found", 404);
+
+  const valid = await user.compareRefreshToken(token);
+  if (!valid) throw new ApiError("Invalid refresh token", 401);
+
+  const accessToken = createAccessToken(user._id);
+  return { accessToken };
+});
+
+// Logout
+export const logoutService = asyncHandler(async (userId) => {
+  const user = await userModel.findById(userId);
+  if (!user) throw new ApiError("User not found", 404);
+
+  user.refreshToken = null;
+  user.refreshTokenExpires = null;
+  await user.save();
+
+  return { message: "Logged out successfully" };
 });
 
 // Protect route

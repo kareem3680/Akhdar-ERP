@@ -3,7 +3,10 @@ import asyncHandler from "express-async-handler";
 
 import Logger from "../../../utils/loggerService.js";
 import userModel from "../models/userModel.js";
-import createToken from "../../../utils/createToken.js";
+import {
+  createAccessToken,
+  createRefreshToken,
+} from "../../../utils/createToken.js";
 import sendEmail from "../../../utils/sendEmail.js";
 import ApiError from "../../../utils/apiError.js";
 
@@ -59,7 +62,7 @@ export const resendResetCodeService = asyncHandler(async (email) => {
 
   if (!user.passwordResetCode || !user.passwordResetCodeExpiresAt) {
     throw new ApiError(
-      "⚠️ You haven’t requested a reset code yet. Please request a code first.",
+      "🛑 You haven’t requested a reset code yet. Please request a code first.",
       400
     );
   }
@@ -83,7 +86,7 @@ export const resendResetCodeService = asyncHandler(async (email) => {
 
   if (user.resetCodeRequests.length >= 5) {
     throw new ApiError(
-      "🚫 You have reached the limit reset code requests, try again later",
+      "🛑 You have reached the limit reset code requests, try again later",
       429
     );
   }
@@ -152,10 +155,18 @@ export const resetPassword = asyncHandler(async (email, newPassword) => {
   user.passwordResetCode = undefined;
   user.passwordResetCodeExpiresAt = undefined;
   user.passwordResetCodeVerified = undefined;
+
+  // Issue new tokens
+  const accessToken = createAccessToken(user._id);
+  const { token: refreshToken, hashed } = await createRefreshToken(user._id);
+
+  // Store hashed refresh token in DB
+  user.refreshToken = hashed;
+  user.refreshTokenExpires = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000); // 30d
+
   await user.save();
 
-  const token = createToken(user._id);
   await logger.info("Password reset successful", { email });
 
-  return token;
+  return { accessToken, refreshToken };
 });
