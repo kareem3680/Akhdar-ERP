@@ -35,7 +35,7 @@ export const registerUser = asyncHandler(async (userData, req) => {
 
   sendEmail({
     email: user.email,
-    subject: "Welcome to Styles Dispatch",
+    subject: "Welcome to Akhdar Company!",
     message:
       "Your account has been successfully created!\nThank you for joining us.",
   }).catch((err) =>

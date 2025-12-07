@@ -1,0 +1,67 @@
+import mongoose, { Schema, model } from "mongoose";
+
+const productSchema = new Schema(
+  {
+    name: {
+      type: String,
+      required: [true, "enter product name"],
+      trim: true,
+    },
+    code: {
+      type: String,
+      required: [true, "enter product code"],
+      unique: true,
+    },
+    price: {
+      type: Number,
+      required: [true, "enter product price"],
+      min: [0, "Price must be positive"],
+    },
+    tax: {
+      type: Number,
+      required: [true, "enter tax for product"],
+      min: [0, "Tax must be positive"],
+    },
+    description: {
+      type: String,
+      maxlength: [500, "Description must be at most 500 characters"],
+      minlength: [5, "Description must be at least 5 characters"],
+    },
+    category: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Category",
+      required: [true, "select category for your product"],
+    },
+    unit: {
+      type: Number,
+      default: 0,
+      min: [0, "Unit must be positive"],
+    },
+    img: [String],
+    total: {
+      type: Number,
+      default: 0,
+    },
+  },
+  { timestamps: true }
+);
+
+// Pre-save middleware to calculate total
+productSchema.pre("save", function (next) {
+  this.total = this.unit * this.price;
+  next();
+});
+
+// Pre-update middleware for findOneAndUpdate
+productSchema.pre("findOneAndUpdate", function (next) {
+  const update = this.getUpdate();
+  if (update.unit !== undefined || update.price !== undefined) {
+    const price = update.price || this._update.price;
+    const unit = update.unit || this._update.unit;
+    this.set({ total: (price || 0) * (unit || 0) });
+  }
+  next();
+});
+
+const Product = model("Product", productSchema);
+export default Product;

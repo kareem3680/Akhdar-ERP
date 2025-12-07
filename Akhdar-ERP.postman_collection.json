@@ -184,132 +184,6 @@
 						}
 					},
 					"response": []
-				},
-				{
-					"name": "getMyData",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{JWT}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{MainHost}}/api/v1/userDashboard/getMyData",
-							"host": [
-								"{{MainHost}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"userDashboard",
-								"getMyData"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "updateMyData",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{JWT}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "PATCH",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"\",\r\n    \"email\": \"\",\r\n    \"phone\": \"+\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{MainHost}}/api/v1/userDashboard/updateMyData",
-							"host": [
-								"{{MainHost}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"userDashboard",
-								"updateMyData"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "changeMyPassword",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"let response = pm.response.json();\r",
-									"let accessToken = response.accessToken;\r",
-									"pm.environment.set(\"JWT\", accessToken);\r",
-									"\r",
-									"let refreshToken = response.refreshToken;\r",
-									"pm.environment.set(\"REFRESH_TOKEN\", refreshToken);"
-								],
-								"type": "text/javascript",
-								"packages": {},
-								"requests": {}
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{JWT}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "PATCH",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"currentPassword\":\"\",\r\n    \"newPassword\":\"\",\r\n    \"newPasswordConfirm\":\"\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{MainHost}}/api/v1/updatePassword/",
-							"host": [
-								"{{MainHost}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"updatePassword",
-								""
-							]
-						}
-					},
-					"response": []
 				}
 			]
 		},
@@ -744,6 +618,490 @@
 								"adminDashboard",
 								"activate",
 								"68d54eb71a883f6b507a26e0"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Categories",
+			"item": [
+				{
+					"name": "createCategory",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"category\": \"Electronics\"\n}"
+						},
+						"url": {
+							"raw": "{{MainHost}}/api/v1/categories",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllCategories",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/categories",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"categories"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "-completedAt",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "completedAt",
+									"disabled": true
+								},
+								{
+									"key": "fields",
+									"value": "origin destination",
+									"disabled": true
+								},
+								{
+									"key": "from",
+									"value": "2025-11-01",
+									"disabled": true
+								},
+								{
+									"key": "to",
+									"value": "2025-12-01",
+									"disabled": true
+								},
+								{
+									"key": "price[lte]",
+									"value": "0.4",
+									"disabled": true
+								},
+								{
+									"key": "price[gte]",
+									"value": "0.1",
+									"disabled": true
+								},
+								{
+									"key": "status",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "keyword",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "10",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getSpecificCategory",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/categories/6787816668730d28fe99332f",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"categories",
+								"6787816668730d28fe99332f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateCategory",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"category\": \"Updated Electronics\"\n}"
+						},
+						"url": {
+							"raw": "{{MainHost}}/api/v1/categories/6787816668730d28fe99332f",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"categories",
+								"6787816668730d28fe99332f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteCategory",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/categories/6787816668730d28fe99332f",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"categories",
+								"6787816668730d28fe99332f"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "createProduct",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "iPhone 15 Pro",
+									"type": "text"
+								},
+								{
+									"key": "code",
+									"value": "IP15P-001",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "999.99",
+									"type": "text"
+								},
+								{
+									"key": "tax",
+									"value": "14",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Latest iPhone with advanced features",
+									"type": "text"
+								},
+								{
+									"key": "category",
+									"value": "6787816668730d28fe99332f",
+									"type": "text"
+								},
+								{
+									"key": "unit",
+									"value": "10",
+									"type": "text"
+								},
+								{
+									"key": "img",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": {
+							"raw": "{{MainHost}}/api/v1/products",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllProducts",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/products",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"products"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "10",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "-createdAt",
+									"disabled": true
+								},
+								{
+									"key": "fields",
+									"value": "name,price,unit",
+									"disabled": true
+								},
+								{
+									"key": "price[lte]",
+									"value": "1000",
+									"disabled": true
+								},
+								{
+									"key": "price[gte]",
+									"value": "100",
+									"disabled": true
+								},
+								{
+									"key": "keyword",
+									"value": "iPhone",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getSpecificProduct",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/products/682cd24209b3cd29954d763e",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"products",
+								"682cd24209b3cd29954d763e"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateProduct",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "iPhone 15 Pro Max",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "1199.99",
+									"type": "text"
+								},
+								{
+									"key": "img",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": {
+							"raw": "{{MainHost}}/api/v1/products/682cd24209b3cd29954d763e",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"products",
+								"682cd24209b3cd29954d763e"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteProduct",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/products/682cd24209b3cd29954d763e",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"products",
+								"682cd24209b3cd29954d763e"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "productsByCategory",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/products/6787816668730d28fe99332f/products",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"products",
+								"6787816668730d28fe99332f",
+								"products"
 							]
 						}
 					},

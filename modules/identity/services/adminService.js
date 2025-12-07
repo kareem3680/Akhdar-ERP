@@ -28,7 +28,7 @@ export const createUserService = asyncHandler(async (body) => {
 
   sendEmail({
     email: newUser.email,
-    subject: "Welcome to Styles Dispatch",
+    subject: "Welcome to Akhdar Company!",
     message:
       "Your account has been successfully created!\nThank you for joining us.",
   }).catch((err) =>
@@ -41,22 +41,6 @@ export const createUserService = asyncHandler(async (body) => {
 
 export const getUsersService = asyncHandler(async (req) => {
   const result = await getAllService(userModel, req.query, "user");
-
-  const filtersForStats = result.finalFilter;
-
-  const total = await userModel.countDocuments(filtersForStats);
-  const drivers = await userModel.countDocuments({
-    ...filtersForStats,
-    role: "driver",
-  });
-  const admins = await userModel.countDocuments({
-    ...filtersForStats,
-    role: "admin",
-  });
-  const employee = await userModel.countDocuments({
-    ...filtersForStats,
-    role: "employee",
-  });
 
   await logger.info("Fetched all users");
 

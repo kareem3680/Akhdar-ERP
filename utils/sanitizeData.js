@@ -33,3 +33,29 @@ export function sanitizeUser(user) {
     ],
   ]);
 }
+
+export function sanitizeCategory(category) {
+  return sanitizeObject(category, [
+    ["id", (c) => c._id],
+    ["category", (c) => c.category],
+    ["createdAt", (c) => c.createdAt],
+    ["updatedAt", (c) => c.updatedAt],
+  ]);
+}
+
+export function sanitizeProduct(product) {
+  return sanitizeObject(product, [
+    ["id", (p) => p._id],
+    ["name", (p) => p.name],
+    ["code", (p) => p.code],
+    ["price", (p) => p.price],
+    ["tax", (p) => p.tax],
+    ["description", (p) => p.description],
+    ["category", (p) => p.category],
+    ["unit", (p) => p.unit],
+    ["img", (p) => p.img],
+    ["total", (p) => p.total],
+    ["createdAt", (p) => p.createdAt],
+    ["updatedAt", (p) => p.updatedAt],
+  ]);
+}
