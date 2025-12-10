@@ -188,6 +188,137 @@
 			]
 		},
 		{
+			"name": "User Dashboard",
+			"item": [
+				{
+					"name": "Get My Data",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/userDashboard/getMyData",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"userDashboard",
+								"getMyData"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update My Data",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"\",\r\n    \"email\": \"\",\r\n    \"phone\": \"+\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MainHost}}/api/v1/userDashboard/updateMyData",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"userDashboard",
+								"updateMyData"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change My Password",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let response = pm.response.json();\r",
+									"let accessToken = response.accessToken;\r",
+									"pm.environment.set(\"JWT\", accessToken);\r",
+									"\r",
+									"let refreshToken = response.refreshToken;\r",
+									"pm.environment.set(\"REFRESH_TOKEN\", refreshToken);"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"currentPassword\":\"\",\r\n    \"newPassword\":\"\",\r\n    \"newPasswordConfirm\":\"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MainHost}}/api/v1/updatePassword/",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"updatePassword",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "forgetPassword",
 			"item": [
 				{
@@ -1102,6 +1233,472 @@
 								"products",
 								"6787816668730d28fe99332f",
 								"products"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Customers",
+			"item": [
+				{
+					"name": "getAllCustomers",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/customers",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"customers"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "active",
+									"disabled": true
+								},
+								{
+									"key": "currency",
+									"value": "EGP",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createCustomer",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Ahmed Mohamed\",\n  \"email\": \"ahmed@example.com\",\n  \"phone\": \"+201112223344\",\n  \"currency\": \"EGP\",\n  \"address\": \"123 Main Street, Cairo\",\n  \"country\": \"Egypt\",\n  \"city\": \"Cairo\",\n  \"taxNumber\": \"123-456-789\"\n}"
+						},
+						"url": {
+							"raw": "{{MainHost}}/api/v1/customers",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"customers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getSpecificCustomer",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/customers/6935ea333717e13e47dd1612",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"customers",
+								"6935ea333717e13e47dd1612"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateCustomer",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"phone\": \"+201223334455\",\n  \"address\": \"456 New Street, Alexandria\",\n  \"status\": \"active\"\n}"
+						},
+						"url": {
+							"raw": "{{MainHost}}/api/v1/customers/6935ea333717e13e47dd1612",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"customers",
+								"6935ea333717e13e47dd1612"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteCustomer(Hard)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/customers/6935ea333717e13e47dd1612",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"customers",
+								"6935ea333717e13e47dd1612"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteCustomer(Soft)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/customers/soft-delete/6935eace3717e13e47dd1630",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"customers",
+								"soft-delete",
+								"6935eace3717e13e47dd1630"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addOrganizationToCustomer",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/customers/6935eace3717e13e47dd1630/organizations/6935e862359ca5e04c76246b",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"customers",
+								"6935eace3717e13e47dd1630",
+								"organizations",
+								"6935e862359ca5e04c76246b"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "removeOrganizationFromCustomer",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/customers/6935eace3717e13e47dd1630/organizations/6935e862359ca5e04c76246b",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"customers",
+								"6935eace3717e13e47dd1630",
+								"organizations",
+								"6935e862359ca5e04c76246b"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Organizations",
+			"item": [
+				{
+					"name": "getAllOrganizations",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/organizations",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"organizations"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "10",
+									"disabled": true
+								},
+								{
+									"key": "status",
+									"value": "active",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createOrganization",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"tradeName\": \"Tech Solutions Inc.\",\n  \"address\": \"123 Tech Street, Cairo\",\n  \"country\": \"Egypt\",\n  \"email\": \"info0@techsolutions.com\",\n  \"phone\": \"+201234567890\",\n  \"userId\": \"6935cb5bacde7e672806a39f\",\n  \"industry\": \"Technology\",\n  \"taxId\": \"123-456-789\",\n  \"locations\": [\"Cairo\", \"Alexandria\"]\n}"
+						},
+						"url": {
+							"raw": "{{MainHost}}/api/v1/organizations",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"organizations"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getSpecificOrganization",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/organizations/6935e86e359ca5e04c76247d",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"organizations",
+								"6935e86e359ca5e04c76247d"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateOrganization",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"tradeName\": \"Updated Tech Solutions\",\n  \"status\": \"inactive\",\n  \"phone\": \"+201112223344\"\n}"
+						},
+						"url": {
+							"raw": "{{MainHost}}/api/v1/organizations/6935e86e359ca5e04c76247d",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"organizations",
+								"6935e86e359ca5e04c76247d"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteOrganization",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/organizations/6935e86e359ca5e04c76247d",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"organizations",
+								"6935e86e359ca5e04c76247d"
 							]
 						}
 					},
