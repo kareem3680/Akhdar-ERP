@@ -10,7 +10,7 @@ import {
   createRefreshToken,
 } from "../../../utils/createToken.js";
 
-const logger = new Logger("update-password");
+const logger = new Logger("updatePassword");
 
 export const updateMyPasswordService = asyncHandler(
   async (userId, currentPassword, newPassword) => {

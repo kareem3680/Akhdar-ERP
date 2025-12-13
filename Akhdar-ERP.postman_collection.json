@@ -1705,6 +1705,695 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Sale Invoices",
+			"item": [
+				{
+					"name": "createInvoiceFromSaleOrder",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"notes\": \"Invoice created for sale order\",\n  \"dueDate\": \"2024-12-31\"\n}"
+						},
+						"url": {
+							"raw": "{{MainHost}}/api/v1/sale-invoices/6935cb5bacde7e672806a39f",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"sale-invoices",
+								"6935cb5bacde7e672806a39f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllSaleInvoices",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/sale-invoices?paymentStatus=unpaid&page=1&limit=10",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"sale-invoices"
+							],
+							"query": [
+								{
+									"key": "paymentStatus",
+									"value": "unpaid"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getSpecificInvoice",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/sale-invoices/6935cb5bacde7e672806a39f",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"sale-invoices",
+								"6935cb5bacde7e672806a39f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateInvoice",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"notes\": \"Updated invoice notes\",\n  \"dueDate\": \"2026-11-30\"\n}"
+						},
+						"url": {
+							"raw": "{{MainHost}}/api/v1/sale-invoices/6935cb5bacde7e672806a39f",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"sale-invoices",
+								"6935cb5bacde7e672806a39f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "recordPayment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"amount\": 500,\n  \"paymentMethod\": \"cash\",\n  \"notes\": \"Partial payment received\"\n}"
+						},
+						"url": {
+							"raw": "{{MainHost}}/api/v1/sale-invoices/payments/6935cb5bacde7e672806a39f",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"sale-invoices",
+								"payments",
+								"6935cb5bacde7e672806a39f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteInvoice",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/sale-invoices/6935cb5bacde7e672806a39f",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"sale-invoices",
+								"6935cb5bacde7e672806a39f"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Sale Orders",
+			"item": [
+				{
+					"name": "Create Sale Order",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"customerId\": \"6935cb5bacde7e672806a39f\",\n  \"organizationId\": \"6935cb5bacde7e672806a39f\",\n  \"products\": [\n    {\n      \"productId\": \"6935cb5bacde7e672806a39f\",\n      \"quantity\": 5,\n      \"price\": 100,\n      \"discount\": 10,\n      \"tax\": 14,\n      \"inventoryId\":\"6935cb5bacde7e672806a39f\" \n    }\n  ],\n  \"expectedDeliveryDate\": \"2024-12-31\",\n  \"currency\": \"EGP\",\n  \"notes\": \"Urgent delivery requested\",\n  \"shippingCost\": 50\n}"
+						},
+						"url": {
+							"raw": "{{MainHost}}/api/v1/sale-orders",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"sale-orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Sale Orders",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/sale-orders?page=1&limit=10&sort=-createdAt&status=draft",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"sale-orders"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "sort",
+									"value": "-createdAt"
+								},
+								{
+									"key": "status",
+									"value": "draft"
+								},
+								{
+									"key": "customerId",
+									"value": "6935cb5bacde7e672806a39f",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Specific Sale Order",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/sale-orders/",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"sale-orders",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Sale Order (Draft Only)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"notes\": \"Updated notes for the order\",\n  \"shippingCost\": 75,\n  \"expectedDeliveryDate\": \"2027-12-25\"\n}"
+						},
+						"url": {
+							"raw": "{{MainHost}}/api/v1/sale-orders/6935cb5bacde7e672806a39f",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"sale-orders",
+								"6935cb5bacde7e672806a39f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Sale Order (Draft Only)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/sale-orders/6935cb5bacde7e672806a39f",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"sale-orders",
+								"6935cb5bacde7e672806a39f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Draft Sale Orders",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/sale-orders/status/draft?page=1&limit=20",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"sale-orders",
+								"status",
+								"draft"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "20"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Approved Sale Orders",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/sale-orders/status/approved",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"sale-orders",
+								"status",
+								"approved"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Delivered Sale Orders",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/sale-orders/status/delivered",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"sale-orders",
+								"status",
+								"delivered"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Approve Sale Order",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"approved\"\n}"
+						},
+						"url": {
+							"raw": "{{MainHost}}/api/v1/sale-orders/approve/6935cb5bacde7e672806a39f",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"sale-orders",
+								"approve",
+								"6935cb5bacde7e672806a39f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mark as Shipped",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"shipped\"\n}"
+						},
+						"url": {
+							"raw": "{{MainHost}}/api/v1/sale-orders/ship/6935cb5bacde7e672806a39f",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"sale-orders",
+								"ship",
+								"6935cb5bacde7e672806a39f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mark as Delivered",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"delivered\"\n}"
+						},
+						"url": {
+							"raw": "{{MainHost}}/api/v1/sale-orders/deliver/6935cb5bacde7e672806a39f",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"sale-orders",
+								"deliver",
+								"6935cb5bacde7e672806a39f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cancel Sale Order",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"canceled\"\n}"
+						},
+						"url": {
+							"raw": "{{MainHost}}/api/v1/sale-orders/cancel/6935cb5bacde7e672806a39f",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"sale-orders",
+								"cancel",
+								"6935cb5bacde7e672806a39f"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }

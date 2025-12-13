@@ -10,7 +10,7 @@ import {
 import sendEmail from "../../../utils/sendEmail.js";
 import ApiError from "../../../utils/apiError.js";
 
-const logger = new Logger("forget-password");
+const logger = new Logger("forgetPassword");
 
 export const sendResetCode = asyncHandler(async (email) => {
   const user = await userModel.findOne({ email });
