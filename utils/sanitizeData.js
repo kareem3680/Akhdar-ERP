@@ -256,8 +256,6 @@ export function sanitizeSaleOrder(order) {
   ]);
 }
 
-// ... الكود الحالي ...
-
 export function sanitizePurchaseOrder(order) {
   return sanitizeObject(order, [
     ["id", (o) => o._id],
@@ -312,4 +310,86 @@ export function sanitizePurchaseOrder(order) {
     ["createdAt", (o) => o.createdAt],
     ["updatedAt", (o) => o.updatedAt],
   ]);
+}
+
+export function sanitizeAttendance(attendance) {
+  return sanitizeObject(attendance, [
+    ["id", (a) => a._id],
+    [
+      "employee",
+      (a) => ({
+        id: a.employee?._id || a.employee,
+        name: a.employee?.name,
+        position: a.employee?.position,
+        department: a.employee?.department,
+      }),
+    ],
+    ["date", (a) => a.date],
+    ["checkIn", (a) => a.checkIn],
+    ["checkOut", (a) => a.checkOut],
+    ["totalHours", (a) => a.totalHours],
+    ["overtime", (a) => a.overtime],
+    ["deduction", (a) => a.deduction],
+    ["status", (a) => a.status],
+    ["notes", (a) => a.notes],
+    ["createdAt", (a) => a.createdAt],
+    ["updatedAt", (a) => a.updatedAt],
+  ]);
+}
+
+export function sanitizeEmployee(employee) {
+  return sanitizeObject(employee, [
+    ["id", (e) => e._id],
+    ["employeeId", (e) => e.employeeId],
+    ["name", (e) => e.name],
+    ["avatar", (e) => e.avatar],
+    ["jobTitle", (e) => e.jobTitle],
+    ["nationalId", (e) => e.nationalId],
+    ["address", (e) => e.address],
+    ["email", (e) => e.email],
+    ["phone", (e) => e.phone],
+    ["birthDate", (e) => e.birthDate],
+    ["alternativePhone", (e) => e.alternativePhone],
+    ["department", (e) => e.department],
+    ["workLocation", (e) => e.workLocation],
+    ["shift", (e) => e.shift],
+    ["bonus", (e) => e.bonus],
+    ["role", (e) => e.role],
+    ["levelOfExperience", (e) => e.levelOfExperience],
+    ["employmentType", (e) => e.employmentType],
+    ["manager", (e) => e.manager],
+    ["salary", (e) => e.salary],
+    ["employmentDate", (e) => e.employmentDate],
+    ["active", (e) => e.active],
+    ["createdAt", (e) => e.createdAt],
+    ["updatedAt", (e) => e.updatedAt],
+  ]);
+}
+
+export function sanitizeDepartment(department) {
+  const baseData = sanitizeObject(department, [
+    ["id", (d) => d._id],
+    ["name", (d) => d.name],
+    ["code", (d) => d.code],
+    ["description", (d) => d.description],
+    ["active", (d) => d.active],
+    ["manager", (d) => d.manager],
+    ["budget", (d) => d.budget],
+    ["location", (d) => d.location],
+    ["color", (d) => d.color],
+    ["createdBy", (d) => d.createdBy],
+    ["createdAt", (d) => d.createdAt],
+    ["updatedAt", (d) => d.updatedAt],
+  ]);
+
+  // Add virtual fields if they exist
+  if (department.employeeCount !== undefined) {
+    baseData.employeeCount = department.employeeCount;
+  }
+
+  if (department.employees !== undefined) {
+    baseData.employees = department.employees;
+  }
+
+  return baseData;
 }

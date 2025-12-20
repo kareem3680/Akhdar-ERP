@@ -24,7 +24,7 @@ cloudinary.config({
 // ========================
 const tempStorage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const folder = "temp_uploads/";
+    const folder = "uploads/";
     fs.mkdirSync(folder, { recursive: true });
     cb(null, folder);
   },
@@ -268,7 +268,7 @@ export const deleteFromCloudinary = async (publicId) => {
 export const deleteUploadedFile = async (filePathOrUrl) => {
   try {
     // Local file
-    if (filePathOrUrl.startsWith("temp_uploads/")) {
+    if (filePathOrUrl.startsWith("uploads/")) {
       if (fs.existsSync(filePathOrUrl)) {
         fs.unlinkSync(filePathOrUrl);
       }

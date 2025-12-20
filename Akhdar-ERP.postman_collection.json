@@ -188,7 +188,7 @@
 			]
 		},
 		{
-			"name": "User Dashboard",
+			"name": "userDashboard",
 			"item": [
 				{
 					"name": "Get My Data",
@@ -1707,7 +1707,7 @@
 			]
 		},
 		{
-			"name": "Sale Invoices",
+			"name": "saleInvoices",
 			"item": [
 				{
 					"name": "createInvoiceFromSaleOrder",
@@ -1933,10 +1933,10 @@
 			]
 		},
 		{
-			"name": "Sale Orders",
+			"name": "saleOrders",
 			"item": [
 				{
-					"name": "Create Sale Order",
+					"name": "createSaleOrder",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -1975,7 +1975,7 @@
 					"response": []
 				},
 				{
-					"name": "Get All Sale Orders",
+					"name": "getAllSaleOrders",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -2027,7 +2027,7 @@
 					"response": []
 				},
 				{
-					"name": "Get Specific Sale Order",
+					"name": "getSpecificSaleOrder",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -2057,7 +2057,7 @@
 					"response": []
 				},
 				{
-					"name": "Update Sale Order (Draft Only)",
+					"name": "UpdateSaleOrder (Draft Only)",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -2097,7 +2097,7 @@
 					"response": []
 				},
 				{
-					"name": "Delete Sale Order (Draft Only)",
+					"name": "DeleteSaleOrder (Draft Only)",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -2127,7 +2127,7 @@
 					"response": []
 				},
 				{
-					"name": "Get Draft Sale Orders",
+					"name": "getDraftSaleOrders",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -2168,7 +2168,7 @@
 					"response": []
 				},
 				{
-					"name": "Get Approved Sale Orders",
+					"name": "getApprovedSaleOrders",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -2199,7 +2199,7 @@
 					"response": []
 				},
 				{
-					"name": "Get Delivered Sale Orders",
+					"name": "getDeliveredSaleOrders",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -2230,7 +2230,7 @@
 					"response": []
 				},
 				{
-					"name": "Approve Sale Order",
+					"name": "approveSaleOrder",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -2271,7 +2271,7 @@
 					"response": []
 				},
 				{
-					"name": "Mark as Shipped",
+					"name": "markAsShipped",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -2312,7 +2312,7 @@
 					"response": []
 				},
 				{
-					"name": "Mark as Delivered",
+					"name": "markAsDelivered",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -2353,7 +2353,7 @@
 					"response": []
 				},
 				{
-					"name": "Cancel Sale Order",
+					"name": "cancelSaleOrder",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -2394,6 +2394,783 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Attendances",
+			"item": [
+				{
+					"name": "getToday'sAttendance",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/attendances/today",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"attendances",
+								"today"
+							]
+						},
+						"description": "Get attendance records for current day"
+					},
+					"response": []
+				},
+				{
+					"name": "getAttendanceByDay",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/attendances/day/15",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"attendances",
+								"day",
+								"15"
+							]
+						},
+						"description": "Get attendance for specific day of current month"
+					},
+					"response": []
+				},
+				{
+					"name": "getAllAttendance",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/attendances?page=1&limit=20&status=present&from=2025-10-25&to=2025-10-10&employee=&sort=-date",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"attendances"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "20"
+								},
+								{
+									"key": "status",
+									"value": "present"
+								},
+								{
+									"key": "from",
+									"value": "2025-10-25"
+								},
+								{
+									"key": "to",
+									"value": "2025-10-10"
+								},
+								{
+									"key": "employee",
+									"value": ""
+								},
+								{
+									"key": "sort",
+									"value": "-date"
+								}
+							]
+						},
+						"description": "Get paginated attendance with filtering options"
+					},
+					"response": []
+				},
+				{
+					"name": "checkInEmployee",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"notes\": \"Optional check-in notes\"\n}"
+						},
+						"url": {
+							"raw": "{{MainHost}}/api/v1/attendances/check-in/69426483841d64820a93e8b6",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"attendances",
+								"check-in",
+								"69426483841d64820a93e8b6"
+							]
+						},
+						"description": "Record employee check-in time"
+					},
+					"response": []
+				},
+				{
+					"name": "checkOutEmployee",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"notes\": \"Optional check-out notes\"\n}"
+						},
+						"url": {
+							"raw": "{{MainHost}}/api/v1/attendances/check-out/69426483841d64820a93e8b6",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"attendances",
+								"check-out",
+								"69426483841d64820a93e8b6"
+							]
+						},
+						"description": "Record employee check-out time"
+					},
+					"response": []
+				},
+				{
+					"name": "monthlyAttendanceReport",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/attendances/month?month=&year=&employee=&department=",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"attendances",
+								"month"
+							],
+							"query": [
+								{
+									"key": "month",
+									"value": ""
+								},
+								{
+									"key": "year",
+									"value": ""
+								},
+								{
+									"key": "employee",
+									"value": ""
+								},
+								{
+									"key": "department",
+									"value": ""
+								}
+							]
+						},
+						"description": "Get monthly attendance summary report"
+					},
+					"response": []
+				}
+			],
+			"description": "Attendance tracking and reporting endpoints"
+		},
+		{
+			"name": "Employees",
+			"item": [
+				{
+					"name": "createEmployee",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Ahmed Mohamed\",\n  \"email\": \"ahmed@company.com\",\n  \"phone\": \"+201112223344\",\n  \"nationalId\": \"35108250201814\",\n  \"jobTitle\": \"Software Engineer\",\n  \"department\": \"6946bf285d76beb62b8fac87\",\n  \"role\": \"employee\",\n  \"manager\": \"69426483841d64820a93e8b6\",\n  \"salary\": 25000,\n  \"employmentDate\": \"2024-01-15\",\n  \"employmentType\": \"full_time\",\n  \"levelOfExperience\": \"senior\",\n  \"workLocation\": \"Cairo HQ\",\n  \"avatar\": \"optional_base64_or_url\"\n}"
+						},
+						"url": {
+							"raw": "{{MainHost}}/api/v1/employees",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"employees"
+							]
+						},
+						"description": "Create new employee record"
+					},
+					"response": []
+				},
+				{
+					"name": "getAllEmployees",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/employees",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"employees"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "20",
+									"disabled": true
+								},
+								{
+									"key": "department",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "status",
+									"value": "active",
+									"disabled": true
+								},
+								{
+									"key": "search",
+									"value": "",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Get paginated employee list"
+					},
+					"response": []
+				},
+				{
+					"name": "getEmployeeById",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/employees/69426483841d64820a93e8b6",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"employees",
+								"69426483841d64820a93e8b6"
+							]
+						},
+						"description": "Get employee details by ID"
+					},
+					"response": []
+				},
+				{
+					"name": "updateEmployee",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Ahmed Mohamed Updated\",\n  \"salary\": 30000,\n  \"jobTitle\": \"Senior Software Engineer\",\n  \"avatar\": \"updated_avatar_url_or_base64\"\n}"
+						},
+						"url": {
+							"raw": "{{MainHost}}/api/v1/employees/69426483841d64820a93e8b6",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"employees",
+								"69426483841d64820a93e8b6"
+							]
+						},
+						"description": "Update employee information"
+					},
+					"response": []
+				},
+				{
+					"name": "activateEmployee",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/employees/activate/69426483841d64820a93e8b6",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"employees",
+								"activate",
+								"69426483841d64820a93e8b6"
+							]
+						},
+						"description": "Activate inactive employee"
+					},
+					"response": []
+				},
+				{
+					"name": "deactivateEmployee",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/employees/69426483841d64820a93e8b6",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"employees",
+								"69426483841d64820a93e8b6"
+							]
+						},
+						"description": "Permanently delete employee record"
+					},
+					"response": []
+				}
+			],
+			"description": "Employee management endpoints"
+		},
+		{
+			"name": "Departments",
+			"item": [
+				{
+					"name": "createDepartment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Information Techfgnology\",\n  \"description\": \"IT Department responsible for technology infrastructure\",\n  \"manager\": \"69426483841d64820a93e8b6\",\n  \"location\": \"Cairo HQ\",\n  \"budget\": 500000\n}"
+						},
+						"url": {
+							"raw": "{{MainHost}}/api/v1/departments",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"departments"
+							]
+						},
+						"description": "Create new department"
+					},
+					"response": []
+				},
+				{
+					"name": "getAllDepartments",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/departments",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"departments"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "20",
+									"disabled": true
+								},
+								{
+									"key": "search",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "withEmployees",
+									"value": "false",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Get paginated department list"
+					},
+					"response": []
+				},
+				{
+					"name": "GetDepartmentById",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/departments/69426483841d64820a93e8b6s",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"departments",
+								"69426483841d64820a93e8b6s"
+							]
+						},
+						"description": "Get department details by ID"
+					},
+					"response": []
+				},
+				{
+					"name": "updateDepartment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"IT Department Updated\",\n  \"description\": \"Updated department description\",\n  \"manager\": \"6946bf285d76beb62b8fac87\",\n  \"location\": \"New Cairo HQ\",\n  \"budget\": 550000\n}"
+						},
+						"url": {
+							"raw": "{{MainHost}}/api/v1/departments/69426483841d64820a93e8b6",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"departments",
+								"69426483841d64820a93e8b6"
+							]
+						},
+						"description": "Update department information"
+					},
+					"response": []
+				},
+				{
+					"name": "deleteDepartment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/departments/69426483841d64820a93e8b6",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"departments",
+								"69426483841d64820a93e8b6"
+							]
+						},
+						"description": "Delete department (only if no employees assigned)"
+					},
+					"response": []
+				},
+				{
+					"name": "getDepartmentStats",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/departments/stats/overview",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"departments",
+								"stats",
+								"overview"
+							]
+						},
+						"description": "Get all employees in a department"
+					},
+					"response": []
+				}
+			],
+			"description": "Department management endpoints"
 		}
 	]
 }
