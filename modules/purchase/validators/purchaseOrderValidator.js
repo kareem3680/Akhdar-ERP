@@ -57,11 +57,17 @@ export const createPurchaseOrderValidator = [
     .isInt({ min: 1 })
     .withMessage("Quantity must be at least 1"),
 
-  check("products.*.price")
+  check("products.*.wholesalePrice")
     .notEmpty()
-    .withMessage("Product price is required")
+    .withMessage("enter wholesalePrice of the product")
     .isFloat({ min: 0 })
-    .withMessage("Price must be a positive number"),
+    .withMessage("wholesalePrice must be a positive number"),
+
+  check("products.*.retailPrice")
+    .notEmpty()
+    .withMessage("enter retailPrice of the product")
+    .isFloat({ min: 0 })
+    .withMessage("retailPrice must be a positive number"),
 
   check("products.*.discount")
     .optional()

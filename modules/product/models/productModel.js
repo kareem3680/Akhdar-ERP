@@ -12,10 +12,15 @@ const productSchema = new Schema(
       required: [true, "enter product code"],
       unique: true,
     },
-    price: {
+    wholesalePrice: {
       type: Number,
-      required: [true, "enter product price"],
-      min: [0, "Price must be positive"],
+      required: [true, "Product wholesalePrice is required"],
+      min: [0, "wholesalePrice must be positive"],
+    },
+    retailPrice: {
+      type: Number,
+      required: [true, "Product retailPrice is required"],
+      min: [0, "retailPrice must be positive"],
     },
     tax: {
       type: Number,

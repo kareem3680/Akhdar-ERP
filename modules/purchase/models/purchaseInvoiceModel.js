@@ -43,15 +43,20 @@ const invoiceSchema = new mongoose.Schema(
           required: [true, "Quantity is required"],
           min: [1, "Quantity must be at least 1"],
         },
-        price: {
+        wholesalePrice: {
           type: Number,
-          required: [true, "Product price is required"],
-          min: [0, "Price must not be negative"],
+          required: [true, "Product wholesalePrice is required"],
+          min: [0, "wholesalePrice must be positive"],
+        },
+        retailPrice: {
+          type: Number,
+          required: [true, "Product retailPrice is required"],
+          min: [0, "retailPrice must be positive"],
         },
         total: {
           type: Number,
           default: function () {
-            return this.quantity * this.price;
+            return this.quantity * this.wholesalePrice;
           },
         },
         tax: {

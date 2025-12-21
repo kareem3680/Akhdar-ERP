@@ -38,10 +38,15 @@ const saleOrderSchema = new Schema(
           required: [true, "enter quantity"],
           min: [1, "Quantity must be at least 1"],
         },
-        price: {
+        wholesalePrice: {
           type: Number,
-          required: [true, "enter price of the product"],
-          min: [0, "Price must be positive"],
+          required: [true, "Product wholesalePrice is required"],
+          min: [0, "wholesalePrice must be positive"],
+        },
+        retailPrice: {
+          type: Number,
+          required: [true, "Product retailPrice is required"],
+          min: [0, "retailPrice must be positive"],
         },
         discount: {
           type: Number,

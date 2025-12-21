@@ -19,11 +19,17 @@ export const createProductValidator = [
     .isLength({ min: 2 })
     .withMessage("Product code must be at least 2 characters"),
 
-  check("price")
+  check("wholesalePrice")
     .notEmpty()
-    .withMessage("enter product price")
+    .withMessage("enter product wholesalePrice")
     .isFloat({ min: 0 })
-    .withMessage("Price must be a positive number"),
+    .withMessage("wholesalePrice must be a positive number"),
+
+  check("retailPrice")
+    .notEmpty()
+    .withMessage("enter product retailPrice")
+    .isFloat({ min: 0 })
+    .withMessage("retailPrice must be a positive number"),
 
   check("tax")
     .notEmpty()
@@ -84,10 +90,15 @@ export const updateProductValidator = [
     .isLength({ min: 2 })
     .withMessage("Product code must be at least 2 characters"),
 
-  check("price")
+  check("wholesalePrice")
     .optional()
     .isFloat({ min: 0 })
-    .withMessage("Price must be a positive number"),
+    .withMessage("wholesalePrice must be a positive number"),
+
+  check("retailPrice")
+    .optional()
+    .isFloat({ min: 0 })
+    .withMessage("retailPrice must be a positive number"),
 
   check("tax")
     .optional()

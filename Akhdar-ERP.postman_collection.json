@@ -128,7 +128,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"\",\r\n    \"password\": \"\"\r\n}",
+							"raw": "{\r\n    \"email\": \"kareem3680@gmail.com\",\r\n    \"password\": \"abc123\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1002,11 +1002,16 @@
 								},
 								{
 									"key": "code",
-									"value": "IP15P-001",
+									"value": "IP0015P-0010",
 									"type": "text"
 								},
 								{
-									"key": "price",
+									"key": "retailPrice",
+									"value": "900",
+									"type": "text"
+								},
+								{
+									"key": "wholesalePrice",
 									"value": "999.99",
 									"type": "text"
 								},
@@ -1022,7 +1027,7 @@
 								},
 								{
 									"key": "category",
-									"value": "6787816668730d28fe99332f",
+									"value": "6946fd52e7e31fb354c6f4cc",
 									"type": "text"
 								},
 								{
@@ -1161,7 +1166,7 @@
 									"type": "text"
 								},
 								{
-									"key": "price",
+									"key": "wholesalePrice",
 									"value": "1199.99",
 									"type": "text"
 								},
@@ -1958,7 +1963,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"customerId\": \"6935cb5bacde7e672806a39f\",\n  \"organizationId\": \"6935cb5bacde7e672806a39f\",\n  \"products\": [\n    {\n      \"productId\": \"6935cb5bacde7e672806a39f\",\n      \"quantity\": 5,\n      \"price\": 100,\n      \"discount\": 10,\n      \"tax\": 14,\n      \"inventoryId\":\"6935cb5bacde7e672806a39f\" \n    }\n  ],\n  \"expectedDeliveryDate\": \"2024-12-31\",\n  \"currency\": \"EGP\",\n  \"notes\": \"Urgent delivery requested\",\n  \"shippingCost\": 50\n}"
+							"raw": "{\n  \"customerId\": \"6935cb5bacde7e672806a39f\",\n  \"organizationId\": \"6935cb5bacde7e672806a39f\",\n  \"products\": [\n    {\n      \"productId\": \"6935cb5bacde7e672806a39f\",\n      \"quantity\": 5,\n      \"wholesalePrice\": 100,\n      \"retailPrice\": 100,\n      \"discount\": 10,\n      \"tax\": 14,\n      \"inventoryId\":\"6935cb5bacde7e672806a39f\" \n    }\n  ],\n  \"expectedDeliveryDate\": \"2024-12-31\",\n  \"currency\": \"EGP\",\n  \"notes\": \"Urgent delivery requested\",\n  \"shippingCost\": 50\n}"
 						},
 						"url": {
 							"raw": "{{MainHost}}/api/v1/sale-orders",
