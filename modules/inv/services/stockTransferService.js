@@ -8,7 +8,7 @@ import StockTransfer from "../models/stockTransferModel.js";
 import Stock from "../models/stockModel.js";
 import Inventory from "../models/inventoryModel.js";
 import Journal from "../../accounting/models/journalModel.js";
-import Account from "../../accounting/models/accountingModel.js";
+import Account from "../../accounting/models/accountModel.js";
 import JournalEntry from "../../accounting/models/journalEntryModel.js";
 import { getAllService } from "../../../utils/servicesHandler.js";
 
@@ -337,7 +337,7 @@ const createShippingJournalEntry = asyncHandler(
       const accountBank = await Account.findOne({ name: "cash/bank" });
 
       if (!journal || !accountExpense || !accountBank) {
-        await logger.warn(
+        await logger.info(
           "Accounting accounts or journal not found, skipping journal entry"
         );
         return;

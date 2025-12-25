@@ -4574,6 +4574,1770 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Supplier",
+			"item": [
+				{
+					"name": "createSupplier",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Tech Solutions Inc.\",\n  \"email\": \"info@techsolutions.com\",\n  \"phone\": \"+201234567890\",\n  \"address\": \"123 Tech Street, Cairo\",\n  \"organizationId\": \"694d7eda18ceaab20b6be087\",\n  \"taxId\": \"123-456-789\",\n  \"website\": \"https://techsolutions.com\",\n  \"contactPerson\": {\n    \"name\": \"Ahmed Mohamed\",\n    \"position\": \"Sales Manager\",\n    \"phone\": \"+201112223344\",\n    \"email\": \"ahmed@techsolutions.com\"\n  },\n  \"paymentTerms\": \"net-30\",\n  \"currency\": \"EGP\",\n  \"rating\": 4.5,\n  \"notes\": \"Reliable supplier for electronics\"\n}"
+						},
+						"url": {
+							"raw": "{{MainHost}}/api/v1/suppliers",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"suppliers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllSuppliers",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/suppliers",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"suppliers"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "10",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "-createdAt",
+									"disabled": true
+								},
+								{
+									"key": "status",
+									"value": "active",
+									"disabled": true
+								},
+								{
+									"key": "search",
+									"value": "tech",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getSpecificSupplier",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/suppliers/6423456789012345678901",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"suppliers",
+								"6423456789012345678901"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateSupplier",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Updated Tech Solutions\",\n  \"rating\": 5,\n  \"status\": \"active\",\n  \"notes\": \"Updated notes\"\n}"
+						},
+						"url": {
+							"raw": "{{MainHost}}/api/v1/suppliers/6423456789012345678901",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"suppliers",
+								"6423456789012345678901"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteSupplier (Hard)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/suppliers/6423456789012345678901",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"suppliers",
+								"6423456789012345678901"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "softDeleteSupplier",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/suppliers/soft-delete/6423456789012345678901",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"suppliers",
+								"soft-delete",
+								"6423456789012345678901"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getOrganizationSuppliers",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/suppliers/organizations/6423456789012345678901",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"suppliers",
+								"organizations",
+								"6423456789012345678901"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addOrganizationToSupplier",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/suppliers/694d8eeb7c65abb5a6afaa63/organizations/694d8eeb7c65abb5a6afaa63",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"suppliers",
+								"694d8eeb7c65abb5a6afaa63",
+								"organizations",
+								"694d8eeb7c65abb5a6afaa63"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "stockTransfer",
+			"item": [
+				{
+					"name": "createStockTransfer",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"from\": \"694d8f950eed64a4e23a92d3\",\n    \"to\": \"694d8f920eed64a4e23a92cf\",\n    \"products\": [\n        {\n            \"productId\": \"694d8fb40eed64a4e23a92e2\",\n            \"unit\": 50,\n            \"name\": \"iPhone 15 Pro\",\n            \"code\": \"IP15P-001\"\n        },\n        {\n            \"productId\": \"694d8fb40eed64a4e23a92e2\",\n            \"unit\": 100,\n            \"name\": \"MacBook Pro\",\n            \"code\": \"MBP-001\"\n        }\n    ],\n    \"notes\": \"Transfer from main warehouse to branch\",\n    \"shippingCost\": 500\n}"
+						},
+						"url": {
+							"raw": "{{MainHost}}/api/v1/stock-transfers",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"stock-transfers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllStockTransfers",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/stock-transfers",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"stock-transfers"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "10",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "-createdAt",
+									"disabled": true
+								},
+								{
+									"key": "status",
+									"value": "draft",
+									"disabled": true
+								},
+								{
+									"key": "from",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "to",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateStockTransfer (Draft)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"notes\": \"Updated transfer notes\",\n  \"shippingCost\": 600\n}"
+						},
+						"url": {
+							"raw": "{{MainHost}}/api/v1/stock-transfers/694d8fb40eed64a4e23a92e2",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"stock-transfers",
+								"694d8fb40eed64a4e23a92e2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "shipTransfer",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"shippingCost\": 500\n}"
+						},
+						"url": {
+							"raw": "{{MainHost}}/api/v1/stock-transfers/ship/694d8fb40eed64a4e23a92e2",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"stock-transfers",
+								"ship",
+								"694d8fb40eed64a4e23a92e2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deliverTransfer",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/stock-transfers/deliver/694d8fb40eed64a4e23a92e2",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"stock-transfers",
+								"deliver",
+								"694d8fb40eed64a4e23a92e2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getTransferDocument",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/stock-transfers/document/694d8fb40eed64a4e23a92e2",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"stock-transfers",
+								"document",
+								"694d8fb40eed64a4e23a92e2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getTransfersByStatus",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/stock-transfers?status=draft",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"stock-transfers"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "draft"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Accounting",
+			"item": [
+				{
+					"name": "createAccount",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Cash Account\",\n  \"code\": \"CA001\",\n  \"type\": \"asset\",\n  \"amount\": 100000,\n  \"currency\": \"EGP\",\n  \"description\": \"Main cash account\"\n}"
+						},
+						"url": {
+							"raw": "{{MainHost}}/api/v1/accounts",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"accounts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllAccounts",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/accounts",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"accounts"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "10",
+									"disabled": true
+								},
+								{
+									"key": "type",
+									"value": "asset",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "code",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteAccount",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/accounts/694d8fb40eed64a4e23a92e2",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"accounts",
+								"694d8fb40eed64a4e23a92e2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAccountJournalEntries",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/accounts/journal-entries/694da21395935b105cb12107",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"accounts",
+								"journal-entries",
+								"694da21395935b105cb12107"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAccountBalance",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/accounts/balance/694da21395935b105cb12107",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"accounts",
+								"balance",
+								"694da21395935b105cb12107"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Journal",
+			"item": [
+				{
+					"name": "createJournal",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"General Journal\",\n  \"journalType\": \"general\",\n  \"code\": \"GJ001\"\n}"
+						},
+						"url": {
+							"raw": "{{MainHost}}/api/v1/journals",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"journals"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllJournals",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/journals",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"journals"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteJournal",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/journals/694d8fb40eed64a4e23a92e2",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"journals",
+								"694d8fb40eed64a4e23a92e2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getJournalEntries",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/journals/entries/694da23995935b105cb1211d",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"journals",
+								"entries",
+								"694da23995935b105cb1211d"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "journalEntry",
+			"item": [
+				{
+					"name": "createJournalEntry",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"journalId\": \"694d8fb40eed64a4e23a92e2\",\n  \"lines\": [\n    {\n      \"accountId\": \"694d8fb40eed64a4e23a92e2\",\n      \"description\": \"Cash received from customer\",\n      \"debit\": 1000,\n      \"credit\": 0\n    },\n    {\n      \"accountId\": \"694d8fb40eed64a4e23a92e2\",\n      \"description\": \"Sales revenue\",\n      \"debit\": 0,\n      \"credit\": 1000\n    }\n  ],\n  \"reference\": \"INV-001\",\n  \"notes\": \"Sales invoice payment\"\n}"
+						},
+						"url": {
+							"raw": "{{MainHost}}/api/v1/journal-entries",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"journal-entries"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllJournalEntries",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/journal-entries",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"journal-entries"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "10",
+									"disabled": true
+								},
+								{
+									"key": "status",
+									"value": "draft",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "-date",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getJournalEntry",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/journal-entries/694d8fb40eed64a4e23a92e2",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"journal-entries",
+								"694d8fb40eed64a4e23a92e2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateJournalEntry",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"notes\": \"Updated notes\",\n  \"status\": \"draft\"\n}"
+						},
+						"url": {
+							"raw": "{{MainHost}}/api/v1/journal-entries/694d8fb40eed64a4e23a92e2",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"journal-entries",
+								"694d8fb40eed64a4e23a92e2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteJournalEntry",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/journal-entries/694d8fb40eed64a4e23a92e2",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"journal-entries",
+								"694d8fb40eed64a4e23a92e2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "postJournalEntry",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/journal-entries/post/694d8fb40eed64a4e23a92e2",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"journal-entries",
+								"post",
+								"694d8fb40eed64a4e23a92e2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Payroll",
+			"item": [
+				{
+					"name": "getAllPayrolls",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/payrolls",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"payrolls"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "10",
+									"disabled": true
+								},
+								{
+									"key": "status",
+									"value": "pending",
+									"disabled": true
+								},
+								{
+									"key": "month",
+									"value": "12",
+									"disabled": true
+								},
+								{
+									"key": "year",
+									"value": "2024",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updatePayroll",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"bonus\": {\n    \"amount\": 500,\n    \"purpose\": \"Performance bonus\"\n  },\n  \"status\": \"pending\"\n}"
+						},
+						"url": {
+							"raw": "{{MainHost}}/api/v1/payrolls/694d8fb40eed64a4e23a92e2",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"payrolls",
+								"694d8fb40eed64a4e23a92e2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "payPayroll",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"paymentMethod\": \"bank_transfer\"\n}"
+						},
+						"url": {
+							"raw": "{{MainHost}}/api/v1/payrolls/pay/694d8fb40eed64a4e23a92e2",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"payrolls",
+								"pay",
+								"694d8fb40eed64a4e23a92e2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getEmployeePayrollHistory",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/payrolls/employee/694d8fb40eed64a4e23a92e2",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"payrolls",
+								"employee",
+								"694d8fb40eed64a4e23a92e2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Loan",
+			"item": [
+				{
+					"name": "createLoan",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"borrowerType\": \"Organization\",\n  \"borrower\": \"694d8fb40eed64a4e23a92e2\",\n  \"loanAmount\": 50000,\n  \"installmentNumber\": 12,\n  \"interestRate\": 10,\n  \"startDate\": \"2024-01-01\",\n  \"description\": \"Business expansion loan\"\n}"
+						},
+						"url": {
+							"raw": "{{MainHost}}/api/v1/loans",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"loans"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllLoans",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/loans",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"loans"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "10",
+									"disabled": true
+								},
+								{
+									"key": "status",
+									"value": "pending",
+									"disabled": true
+								},
+								{
+									"key": "borrower",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "-createdAt",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getSpecificLoan",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/loans/694dafc9d470ad1bcba58474",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"loans",
+								"694dafc9d470ad1bcba58474"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateLoan",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"interestRate\": 12,\n  \"description\": \"Updated loan terms\"\n}"
+						},
+						"url": {
+							"raw": "{{MainHost}}/api/v1/loans/694dafc9d470ad1bcba58474",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"loans",
+								"694dafc9d470ad1bcba58474"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteLoan",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/loans/694dafc9d470ad1bcba58474",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"loans",
+								"694dafc9d470ad1bcba58474"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "approveLoan",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/loans/approve/694dafc9d470ad1bcba58474",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"loans",
+								"approve",
+								"694dafc9d470ad1bcba58474"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getLoanSummary",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/loans/summary/694dafc9d470ad1bcba58474",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"loans",
+								"summary",
+								"694dafc9d470ad1bcba58474"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "loanInstallment",
+			"item": [
+				{
+					"name": "getAllInstallments",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/loan-installments",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"loan-installments"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "10",
+									"disabled": true
+								},
+								{
+									"key": "loanId",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "status",
+									"value": "pending",
+									"disabled": true
+								},
+								{
+									"key": "from",
+									"value": "2024-01-01",
+									"disabled": true
+								},
+								{
+									"key": "to",
+									"value": "2024-12-31",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "dueDate",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getOverdueInstallments",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/loan-installments/overdue",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"loan-installments",
+								"overdue"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "10",
+									"disabled": true
+								},
+								{
+									"key": "loanId",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getSpecificInstallment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/loan-installments/694dafc9d470ad1bcba58474",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"loan-installments",
+								"694dafc9d470ad1bcba58474"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "payInstallment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"paymentMethod\": \"bank_transfer\",\n  \"paymentDate\": \"2024-01-15\",\n  \"notes\": \"Payment received via bank transfer\",\n  \"reference\": \"TRX-123456789\"\n}"
+						},
+						"url": {
+							"raw": "{{MainHost}}/api/v1/loan-installments/pay/694dafc9d470ad1bcba58474",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"loan-installments",
+								"pay",
+								"694dafc9d470ad1bcba58474"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteInstallment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/loan-installments/694dafc9d470ad1bcba58474",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"loan-installments",
+								"694dafc9d470ad1bcba58474"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }

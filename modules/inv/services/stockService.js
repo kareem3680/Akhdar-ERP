@@ -13,7 +13,7 @@ import Inventory from "../models/inventoryModel.js";
 import PurchaseOrder from "../../purchase/models/purchaseOrderModel.js";
 import SaleOrder from "../../sales/models/saleOrderModel.js";
 import Journal from "../../accounting/models/journalModel.js";
-import Account from "../../accounting/models/accountingModel.js";
+import Account from "../../accounting/models/accountModel.js";
 import JournalEntry from "../../accounting/models/journalEntryModel.js";
 import {
   getAllService,
@@ -267,7 +267,7 @@ const createPurchaseJournalEntry = asyncHandler(async (purchaseOrder) => {
     const accountBank = await Account.findOne({ name: "supplier (AP)" });
 
     if (!journal || !accountPurchase || !accountBank) {
-      await logger.warn(
+      await logger.info(
         "Accounting accounts or journal not found, skipping journal entry"
       );
       return;
@@ -384,7 +384,7 @@ const createSaleJournalEntry = asyncHandler(async (saleOrder) => {
     const accountReceivable = await Account.findOne({ name: "cash/bank" });
 
     if (!journal || !accountRevenue || !accountReceivable) {
-      await logger.warn(
+      await logger.info(
         "Accounting accounts or journal not found, skipping journal entry"
       );
       return;

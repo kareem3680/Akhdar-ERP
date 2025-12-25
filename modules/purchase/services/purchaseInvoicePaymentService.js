@@ -5,7 +5,7 @@ const logger = new Logger("invoice-payment");
 
 import InvoicePayment from "../models/purchaseInvoicePaymentModel.js";
 import PurchaseInvoice from "../models/purchaseInvoiceModel.js";
-import Account from "../../accounting/models/accountingModel.js";
+import Account from "../../accounting/models/accountModel.js";
 import journalEntry from "../../accounting/models/journalEntryModel.js";
 import Journal from "../../accounting/models/journalModel.js";
 import { getAllService } from "../../../utils/servicesHandler.js";
@@ -100,7 +100,7 @@ const createJournalEntry = asyncHandler(async (invoice, amount) => {
     const journal = await Journal.findOne({ journalType: "invoice/payment" });
 
     if (!debitAccount || !creditAccount || !journal) {
-      await logger.warn(
+      await logger.info(
         "Accounting accounts or journal not found, skipping journal entry"
       );
       return;

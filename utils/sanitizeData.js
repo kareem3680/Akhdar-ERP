@@ -509,3 +509,179 @@ export function sanitizeStockTransfer(transfer) {
     ],
   ]);
 }
+
+export function sanitizeAccount(account) {
+  return sanitizeObject(account, [
+    ["id", (a) => a._id],
+    ["name", (a) => a.name],
+    ["code", (a) => a.code],
+    ["amount", (a) => a.amount],
+    ["type", (a) => a.type],
+    ["subtype", (a) => a.subtype],
+    ["description", (a) => a.description],
+    ["isActive", (a) => a.isActive],
+    ["parentAccount", (a) => a.parentAccount],
+    ["currency", (a) => a.currency],
+    ["createdAt", (a) => a.createdAt],
+    ["updatedAt", (a) => a.updatedAt],
+  ]);
+}
+
+export function sanitizeJournal(journal) {
+  return sanitizeObject(journal, [
+    ["id", (j) => j._id],
+    ["name", (j) => j.name],
+    ["journalType", (j) => j.journalType],
+    ["code", (j) => j.code],
+    ["createdAt", (j) => j.createdAt],
+    ["updatedAt", (j) => j.updatedAt],
+  ]);
+}
+
+export function sanitizeJournalEntry(journalEntry) {
+  return sanitizeObject(journalEntry, [
+    ["id", (je) => je._id],
+    ["journalId", (je) => je.journalId],
+    [
+      "lines",
+      (je) =>
+        je.lines?.map((line) => ({
+          accountId: line.accountId,
+          description: line.description,
+          debit: line.debit,
+          credit: line.credit,
+        })),
+    ],
+    ["date", (je) => je.date],
+    ["reference", (je) => je.reference],
+    ["notes", (je) => je.notes],
+    ["status", (je) => je.status],
+    ["createdAt", (je) => je.createdAt],
+    ["updatedAt", (je) => je.updatedAt],
+    [
+      "totalDebit",
+      (je) => je.lines?.reduce((sum, line) => sum + line.debit, 0) || 0,
+    ],
+    [
+      "totalCredit",
+      (je) => je.lines?.reduce((sum, line) => sum + line.credit, 0) || 0,
+    ],
+  ]);
+}
+
+export function sanitizePayroll(payroll) {
+  return sanitizeObject(payroll, [
+    ["id", (p) => p._id],
+    ["employee", (p) => p.employee],
+    ["salary", (p) => p.salary],
+    ["overtime", (p) => p.overtime],
+    ["deduction", (p) => p.deduction],
+    ["bonus", (p) => p.bonus],
+    ["total", (p) => p.total],
+    ["date", (p) => p.date],
+    ["month", (p) => p.month],
+    ["year", (p) => p.year],
+    ["status", (p) => p.status],
+    ["paymentDate", (p) => p.paymentDate],
+    ["paymentMethod", (p) => p.paymentMethod],
+    ["notes", (p) => p.notes],
+    ["createdBy", (p) => p.createdBy],
+    ["isActive", (p) => p.isActive],
+    ["createdAt", (p) => p.createdAt],
+    ["updatedAt", (p) => p.updatedAt],
+  ]);
+}
+
+export function sanitizeLoan(loan) {
+  const sanitized = sanitizeObject(loan, [
+    ["id", (l) => l._id || l.id],
+    ["borrowerType", (l) => l.borrowerType],
+    ["borrowerId", (l) => l.borrower?._id || l.borrower],
+    ["borrowerName", (l) => l.borrower?.name || l.borrower?.tradeName],
+    ["loanAmount", (l) => l.loanAmount],
+    ["installmentNumber", (l) => l.installmentNumber],
+    [
+      "installmentAmount",
+      (l) =>
+        l.installmentAmount != null
+          ? Math.ceil(Number(l.installmentAmount) * 100) / 100
+          : undefined,
+    ],
+    ["interestRate", (l) => l.interestRate],
+    ["totalPayable", (l) => l.totalPayable],
+    ["status", (l) => l.status],
+    ["startDate", (l) => formatDate(l.startDate)],
+    ["remainingBalance", (l) => l.remainingBalance || l.remaningBalance],
+    ["description", (l) => l.description],
+    ["createdAt", (l) => formatDate(l.createdAt)],
+    ["updatedAt", (l) => formatDate(l.updatedAt)],
+    ["createdById", (l) => l.createdBy?._id || l.createdBy],
+    ["createdByName", (l) => l.createdBy?.name],
+    ["approvedById", (l) => l.approvedBy?._id || l.approvedBy],
+    ["approvedByName", (l) => l.approvedBy?.name],
+  ]);
+
+  // Add calculated fields
+  if (sanitized) {
+    sanitized.summary = {
+      totalAmount: sanitized.totalPayable,
+      remainingAmount: sanitized.remainingBalance,
+      paidAmount: sanitized.totalPayable - sanitized.remainingBalance,
+      progressPercentage:
+        sanitized.totalPayable > 0
+          ? (
+              ((sanitized.totalPayable - sanitized.remainingBalance) /
+                sanitized.totalPayable) *
+              100
+            ).toFixed(2)
+          : 0,
+      installmentProgress: `${loan.paidInstallmentsCount || 0}/${
+        sanitized.installmentNumber
+      }`,
+    };
+  }
+
+  return sanitized;
+}
+
+export function sanitizeLoanInstallment(installment) {
+  const sanitized = sanitizeObject(installment, [
+    ["id", (i) => i._id || i.id],
+    ["loanId", (i) => i.loanId?._id || i.loanId],
+    ["loanAmount", (i) => i.loanId?.loanAmount],
+    ["amount", (i) => i.amount],
+    ["dueDate", (i) => formatDate(i.dueDate)],
+    ["status", (i) => i.status],
+    ["paymentDate", (i) => formatDate(i.paymentDate)],
+    ["paymentMethod", (i) => i.paymentMethod],
+    ["notes", (i) => i.notes],
+    ["createdAt", (i) => formatDate(i.createdAt)],
+    ["updatedAt", (i) => formatDate(i.updatedAt)],
+    ["createdById", (i) => i.createdBy?._id || i.createdBy],
+    ["createdByName", (i) => i.createdBy?.name],
+    [
+      "borrowerName",
+      (i) => i.loanId?.borrower?.name || i.loanId?.borrower?.tradeName,
+    ],
+    ["loanStatus", (i) => i.loanId?.status],
+  ]);
+
+  // Calculate days status
+  if (sanitized && sanitized.dueDate) {
+    const dueDate = new Date(sanitized.dueDate);
+    const today = new Date();
+
+    if (sanitized.status === "pending" && dueDate < today) {
+      sanitized.daysOverdue = Math.ceil(
+        (today - dueDate) / (1000 * 60 * 60 * 24)
+      );
+      sanitized.status = "overdue";
+    } else if (sanitized.status === "pending") {
+      sanitized.daysUntilDue = Math.ceil(
+        (dueDate - today) / (1000 * 60 * 60 * 24)
+      );
+    }
+  }
+
+  return sanitized;
+}

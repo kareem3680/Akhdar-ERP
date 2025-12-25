@@ -3,7 +3,7 @@ import Logger from "../../../utils/loggerService.js";
 const logger = new Logger("stats");
 
 import journalEntry from "../../accounting/models/journalEntryModel.js";
-import Account from "../../accounting/models/accountingModel.js";
+import Account from "../../accounting/models/accountModel.js";
 import SaleInvoice from "../../sales/models/saleInvoiceModel.js";
 import PurchaseInvoice from "../../purchase/models/purchaseInvoiceModel.js";
 import InvoicePayment from "../../purchase/models/purchaseInvoicePaymentModel.js";
