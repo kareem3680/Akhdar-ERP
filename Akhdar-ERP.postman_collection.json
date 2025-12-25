@@ -128,7 +128,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"kareem3680@gmail.com\",\r\n    \"password\": \"abc123\"\r\n}",
+							"raw": "{\r\n    \"email\": \"admin@gmail.com\",\r\n    \"password\": \"abc123\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -3356,6 +3356,444 @@
 			]
 		},
 		{
+			"name": "purchaseOrder",
+			"item": [
+				{
+					"name": "createPurchaseOrder",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"supplierId\": \"657f8a1b2c9e8f001a3b4c5d\",\n  \"organizationId\": \"6580b3c4d5e6f001b7c8d9e0\",\n  \"products\": [\n    {\n      \"productId\": \"6581c2d3e4f5a001c8d9e0f1\",\n      \"name\": \"Laptop Dell XPS\",\n      \"quantity\": 10,\n      \"wholesalePrice\": 1500,\n      \"retailPrice\": 2000,\n      \"discount\": 5,\n      \"inventoryId\": \"6582d3e4f5a6b001d9e0f1a2\"\n    },\n    {\n      \"productId\": \"6583e4f5a6b7c001e0f1a2b3\",\n      \"name\": \"Wireless Mouse\",\n      \"quantity\": 50,\n      \"wholesalePrice\": 25,\n      \"retailPrice\": 40,\n      \"discount\": 0,\n      \"inventoryId\": \"6582d3e4f5a6b001d9e0f1a2\"\n    }\n  ],\n  \"expectedDeliveryDate\": \"2024-12-31\",\n  \"currency\": \"USD\",\n  \"notes\": \"Urgent delivery required\"\n}"
+						},
+						"url": {
+							"raw": "{{MainHost}}/api/v1/purchase-orders",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"purchase-orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllPurchaseOrders",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/purchase-orders?page=1&limit=10&sort=-createdAt",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"purchase-orders"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "sort",
+									"value": "-createdAt"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getSpecificPurchaseOrder",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/purchase-orders/6582d3e4f5a6b001d9e0f1a2",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"purchase-orders",
+								"6582d3e4f5a6b001d9e0f1a2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdatePurchaseOrder",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"notes\": \"Updated notes and changed delivery date\",\n  \"expectedDeliveryDate\": \"2024-12-25\"\n}"
+						},
+						"url": {
+							"raw": "{{MainHost}}/api/v1/purchase-orders/6582d3e4f5a6b001d9e0f1a2",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"purchase-orders",
+								"6582d3e4f5a6b001d9e0f1a2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deletePurchaseOrder",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/purchase-orders/6582d3e4f5a6b001d9e0f1a2",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"purchase-orders",
+								"6582d3e4f5a6b001d9e0f1a2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getDraftOrders",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/purchase-orders/status/draft",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"purchase-orders",
+								"status",
+								"draft"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getApprovedOrders",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/purchase-orders/status/approved",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"purchase-orders",
+								"status",
+								"approved"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getDeliveredOrders",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/purchase-orders/status/delivered",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"purchase-orders",
+								"status",
+								"delivered"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "approveOrder",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"approved\"\n}"
+						},
+						"url": {
+							"raw": "{{MainHost}}/api/v1/purchase-orders/approve/6582d3e4f5a6b001d9e0f1a2",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"purchase-orders",
+								"approve",
+								"6582d3e4f5a6b001d9e0f1a2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "markAsShipped",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"shipped\"\n}"
+						},
+						"url": {
+							"raw": "{{MainHost}}/api/v1/purchase-orders/ship/6582d3e4f5a6b001d9e0f1a2",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"purchase-orders",
+								"ship",
+								"6582d3e4f5a6b001d9e0f1a2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "markAsDelivered",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"deliveredQuantities\": [10, 50]\n}s"
+						},
+						"url": {
+							"raw": "{{MainHost}}/api/v1/purchase-orders/deliver/6582d3e4f5a6b001d9e0f1a2",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"purchase-orders",
+								"deliver",
+								"6582d3e4f5a6b001d9e0f1a2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "cancelOrder",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"canceled\"\n}"
+						},
+						"url": {
+							"raw": "{{MainHost}}/api/v1/purchase-orders/cancel/6582d3e4f5a6b001d9e0f1a2",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"purchase-orders",
+								"cancel",
+								"6582d3e4f5a6b001d9e0f1a2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "purchaseInvoice",
 			"item": [
 				{
@@ -3679,6 +4117,456 @@
 								"v1",
 								"purchase-invoice-payments",
 								"stats",
+								"6935e862359ca5e04c76246b"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Inventory",
+			"item": [
+				{
+					"name": "createInventory",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Main Warehouse",
+									"type": "text"
+								},
+								{
+									"key": "location",
+									"value": "Cairo Industrial Zone",
+									"type": "text"
+								},
+								{
+									"key": "capacity",
+									"value": "5000",
+									"type": "text"
+								},
+								{
+									"key": "avatar",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": {
+							"raw": "{{MainHost}}/api/v1/inventories",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"inventories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllInventories",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/inventories",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"inventories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getSpecificInventory",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/inventories/694d7f0318ceaab20b6be08e",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"inventories",
+								"694d7f0318ceaab20b6be08e"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateInventory",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{JWT}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"capacity\": 6000,\r\n  \"status\": \"active\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MainHost}}/api/v1/inventories/694d7f0318ceaab20b6be08e",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"inventories",
+								"694d7f0318ceaab20b6be08e"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteInventory",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/inventories/694d7f0318ceaab20b6be08e",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"inventories",
+								"694d7f0318ceaab20b6be08e"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Stock",
+			"item": [
+				{
+					"name": "addStockToInventory",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"productId\": \"6935e862359ca5e04c76246b\",\n    \"quantity\": 100,\n    \"minQuantity\": 10,\n    \"maxQuantity\": 1000\n}"
+						},
+						"url": {
+							"raw": "{{MainHost}}/api/v1/stocks/694d7f4618ceaab20b6be0a3",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"stocks",
+								"694d7f4618ceaab20b6be0a3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getInventoryStocks",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/stocks/stocks/6935e862359ca5e04c76246b",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"stocks",
+								"stocks",
+								"6935e862359ca5e04c76246b"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getSpecificStock",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/stocks/6935e862359ca5e04c76246b/stocks/6935e862359ca5e04c76246b",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"stocks",
+								"6935e862359ca5e04c76246b",
+								"stocks",
+								"6935e862359ca5e04c76246b"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateStock",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"quantity\": 150,\n  \"minQuantity\": 20\n}"
+						},
+						"url": {
+							"raw": "{{MainHost}}/api/v1/stocks/6935e862359ca5e04c76246b",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"stocks",
+								"6935e862359ca5e04c76246b"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteStock",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/stocks/6935e862359ca5e04c76246bss",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"stocks",
+								"6935e862359ca5e04c76246bss"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "stockIn (Purchase Order)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"products\": [\n    {\n      \"inventoryId\": \"6935e862359ca5e04c76246b\",\n      \"productId\": \"6935e862359ca5e04c76246b\",\n      \"deliveredQuantity\": 50\n    }\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{MainHost}}/api/v1/stocks/purchase-orders/stock-in/6935e862359ca5e04c76246b",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"stocks",
+								"purchase-orders",
+								"stock-in",
+								"6935e862359ca5e04c76246b"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "stockOut (Sale Order)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{}"
+						},
+						"url": {
+							"raw": "{{MainHost}}/api/v1/stocks/sale-orders/stock-out/6935e862359ca5e04c76246b",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"stocks",
+								"sale-orders",
+								"stock-out",
 								"6935e862359ca5e04c76246b"
 							]
 						}

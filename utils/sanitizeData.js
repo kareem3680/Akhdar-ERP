@@ -397,3 +397,115 @@ export function sanitizeDepartment(department) {
 
   return baseData;
 }
+
+export function sanitizeInventory(inventory) {
+  return sanitizeObject(inventory, [
+    ["id", (i) => i._id],
+    ["name", (i) => i.name],
+    ["avatar", (i) => i.avatar],
+    ["location", (i) => i.location],
+    ["capacity", (i) => i.capacity],
+    ["currentCapacity", (i) => i.capacity - (i.usedCapacity || 0)],
+    ["organizationId", (i) => i.organizationId],
+    ["description", (i) => i.description],
+    ["status", (i) => i.status],
+    ["managerId", (i) => i.managerId],
+    ["contactPhone", (i) => i.contactPhone],
+    ["isActive", (i) => i.isActive],
+    ["createdAt", (i) => i.createdAt],
+    ["updatedAt", (i) => i.updatedAt],
+  ]);
+}
+
+export function sanitizeStock(stock) {
+  return sanitizeObject(stock, [
+    ["id", (s) => s._id],
+    ["productId", (s) => s.productId],
+    ["inventoryId", (s) => s.inventoryId],
+    ["quantity", (s) => s.quantity],
+    ["minQuantity", (s) => s.minQuantity],
+    ["maxQuantity", (s) => s.maxQuantity],
+    ["status", (s) => s.status],
+    [
+      "availableQuantity",
+      (s) =>
+        s.getAvailableQuantity
+          ? s.getAvailableQuantity()
+          : Math.max(0, s.quantity - (s.minQuantity || 0)),
+    ],
+    ["lastUpdatedBy", (s) => s.lastUpdatedBy],
+    ["transactions", (s) => s.transactions],
+    ["isActive", (s) => s.isActive],
+    ["createdAt", (s) => s.createdAt],
+    ["updatedAt", (s) => s.updatedAt],
+  ]);
+}
+
+export function sanitizeSupplier(supplier) {
+  return sanitizeObject(supplier, [
+    ["id", (s) => s._id],
+    ["name", (s) => s.name],
+    ["email", (s) => s.email],
+    ["address", (s) => s.address],
+    ["phone", (s) => s.phone],
+    ["organizationId", (s) => s.organizationId],
+    ["taxId", (s) => s.taxId],
+    ["website", (s) => s.website],
+    ["contactPerson", (s) => s.contactPerson],
+    ["paymentTerms", (s) => s.paymentTerms],
+    ["currency", (s) => s.currency],
+    ["rating", (s) => s.rating],
+    ["notes", (s) => s.notes],
+    ["status", (s) => s.status],
+    ["createdBy", (s) => s.createdBy],
+    [
+      "contactInfo",
+      (s) => ({
+        name: s.name,
+        email: s.email,
+        phone: s.phone,
+        address: s.address,
+        contactPerson: s.contactPerson,
+      }),
+    ],
+    [
+      "organizationsCount",
+      (s) =>
+        s.organizationsCount ||
+        (s.organizationId ? s.organizationId.length : 0),
+    ],
+    ["createdAt", (s) => s.createdAt],
+    ["updatedAt", (s) => s.updatedAt],
+  ]);
+}
+
+export function sanitizeStockTransfer(transfer) {
+  return sanitizeObject(transfer, [
+    ["id", (t) => t._id],
+    ["reference", (t) => t.reference],
+    ["status", (t) => t.status],
+    ["from", (t) => t.from],
+    ["to", (t) => t.to],
+    [
+      "products",
+      (t) =>
+        t.products?.map((p) => ({
+          productId: p.productId,
+          unit: p.unit,
+          name: p.name,
+          code: p.code,
+        })),
+    ],
+    ["shippingCost", (t) => t.shippingCost],
+    ["notes", (t) => t.notes],
+    ["createdBy", (t) => t.createdBy],
+    ["approvedBy", (t) => t.approvedBy],
+    ["createdAt", (t) => t.createdAt],
+    ["updatedAt", (t) => t.updatedAt],
+    ["canShip", (t) => (t.canShip ? t.canShip() : t.status === "draft")],
+    [
+      "canDeliver",
+      (t) => (t.canDeliver ? t.canDeliver() : t.status === "shipping"),
+    ],
+  ]);
+}

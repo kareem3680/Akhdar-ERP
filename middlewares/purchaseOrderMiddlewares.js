@@ -1,4 +1,4 @@
-import Inventory from "../modules/inventory/models/inventoryModel.js";
+import Inventory from "../modules/inv/models/inventoryModel.js";
 import Product from "../modules/product/models/productModel.js";
 import ApiError from "../utils/apiError.js";
 import Logger from "../utils/loggerService.js";

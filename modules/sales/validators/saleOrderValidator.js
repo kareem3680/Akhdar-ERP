@@ -3,7 +3,7 @@ import validatorMiddleware from "../../../middlewares/validatorMiddleware.js";
 import Customer from "../../customer/models/customerModel.js";
 import Organization from "../../organization/models/organizationModel.js";
 import Product from "../../product/models/productModel.js";
-import Inventory from "../../inventory/models/inventoryModel.js";
+import Inventory from "../../inv/models/inventoryModel.js";
 
 export const createSaleOrderValidator = [
   check("customerId")

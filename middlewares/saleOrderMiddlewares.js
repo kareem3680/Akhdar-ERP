@@ -1,4 +1,4 @@
-import Stock from "../modules/inventory/models/stockModel.js";
+import Stock from "../modules/inv/models/stockModel.js";
 import Product from "../modules/product/models/productModel.js";
 import ApiError from "../utils/apiError.js";
 import Logger from "../utils/loggerService.js";

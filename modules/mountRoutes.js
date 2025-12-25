@@ -5,6 +5,7 @@ import mountRoutesOrganization from "./organization/routes/index.js";
 import mountRoutesSales from "./sales/routes/index.js";
 import mountRoutesPurchase from "./purchase/routes/index.js";
 import mountRoutesStats from "./stats/routes/index.js";
+import mountRoutesInv from "./inv/routes/index.js";
 
 export default function mountRoutes(app) {
   mountRoutesIdentity(app);
@@ -14,4 +15,5 @@ export default function mountRoutes(app) {
   mountRoutesSales(app);
   mountRoutesPurchase(app);
   mountRoutesStats(app);
+  mountRoutesInv(app);
 }

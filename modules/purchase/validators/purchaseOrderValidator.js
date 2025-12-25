@@ -1,9 +1,9 @@
 import { check } from "express-validator";
 import validatorMiddleware from "../../../middlewares/validatorMiddleware.js";
-import Supplier from "../../inventory/models/supplierModel.js";
+import Supplier from "../../inv/models/supplierModel.js";
 import Organization from "../../organization/models/organizationModel.js";
 import Product from "../../product/models/productModel.js";
-import Inventory from "../../inventory/models/inventoryModel.js";
+import Inventory from "../../inv/models/inventoryModel.js";
 
 export const createPurchaseOrderValidator = [
   check("supplierId")
