@@ -685,3 +685,88 @@ export function sanitizeLoanInstallment(installment) {
 
   return sanitized;
 }
+
+export function sanitizeMobileStock(mobileStock) {
+  return sanitizeObject(mobileStock, [
+    ["id", (ms) => ms._id],
+    ["representative", (ms) => ms.representative],
+    [
+      "goods",
+      (ms) =>
+        ms.goods?.map((good) => ({
+          stock: good.stock,
+          quantity: good.quantity,
+        })),
+    ],
+    ["capacity", (ms) => ms.capacity],
+    ["name", (ms) => ms.name],
+    ["createdAt", (ms) => ms.createdAt],
+    ["updatedAt", (ms) => ms.updatedAt],
+  ]);
+}
+
+export function sanitizeSaleOrderInTrip(saleOrder) {
+  return sanitizeObject(saleOrder, [
+    ["id", (so) => so._id],
+    ["customer", (so) => so.customer],
+    ["orderDate", (so) => so.orderDate],
+    [
+      "goods",
+      (so) =>
+        so.goods?.map((good) => ({
+          product: good.product,
+          code: good.code,
+          unit: good.unit,
+          price: good.price,
+          discount: good.discount,
+          total: good.total,
+        })),
+    ],
+    ["orderNumber", (so) => so.orderNumber],
+    ["total", (so) => so.total],
+    ["createdAt", (so) => so.createdAt],
+    ["updatedAt", (so) => so.updatedAt],
+  ]);
+}
+
+export function sanitizeTrip(trip) {
+  return sanitizeObject(trip, [
+    ["id", (t) => t._id],
+    ["representative", (t) => t.representative],
+    ["car", (t) => t.car],
+    ["driver", (t) => t.driver],
+    ["location", (t) => t.location],
+    ["date", (t) => t.date],
+    ["expenseses", (t) => t.expenseses],
+    ["sales", (t) => t.sales],
+    ["status", (t) => t.status],
+    ["tripNumber", (t) => t.tripNumber],
+    ["createdAt", (t) => t.createdAt],
+    ["updatedAt", (t) => t.updatedAt],
+  ]);
+}
+
+export function sanitizeTripInvoice(tripInvoice) {
+  return sanitizeObject(tripInvoice, [
+    ["id", (ti) => ti._id],
+    ["saleOrderId", (ti) => ti.saleOrderId],
+    ["createdAt", (ti) => ti.createdAt],
+    ["updatedAt", (ti) => ti.updatedAt],
+  ]);
+}
+
+export function sanitizeRepresentative(representative) {
+  return sanitizeObject(representative, [
+    ["id", (r) => r._id],
+    ["user", (r) => r.user],
+    ["region", (r) => r.region],
+    ["territory", (r) => r.territory],
+    ["supervisor", (r) => r.supervisor],
+    ["commissionRate", (r) => r.commissionRate],
+    ["targetSales", (r) => r.targetSales],
+    ["currentSales", (r) => r.currentSales],
+    ["active", (r) => r.active],
+    ["createdAt", (r) => r.createdAt],
+    ["updatedAt", (r) => r.updatedAt],
+  ]);
+}

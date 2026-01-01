@@ -191,7 +191,7 @@
 			"name": "userDashboard",
 			"item": [
 				{
-					"name": "Get My Data",
+					"name": "getMyData",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -221,7 +221,7 @@
 					"response": []
 				},
 				{
-					"name": "Update My Data",
+					"name": "updateMyData",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -260,7 +260,7 @@
 					"response": []
 				},
 				{
-					"name": "Change My Password",
+					"name": "changeMyPassword",
 					"event": [
 						{
 							"listen": "test",
@@ -6332,6 +6332,912 @@
 								"v1",
 								"loan-installments",
 								"694dafc9d470ad1bcba58474"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "mobileStock",
+			"item": [
+				{
+					"name": "createMobileStock",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"representative\": \"694dafc9d470ad1bcba58474\",\n  \"goods\": [\n    {\n      \"stock\": \"694dafc9d470ad1bcba58474\",\n      \"quantity\": 100\n    }\n  ],\n  \"capacity\": 500,\n  \"name\": \"Mobile Van - Cairo\"\n}"
+						},
+						"url": {
+							"raw": "{{MainHost}}/api/v1/mobile-stocks",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"mobile-stocks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllMobileStocks",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/mobile-stocks",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"mobile-stocks"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "10",
+									"disabled": true
+								},
+								{
+									"key": "representative",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "keyword",
+									"value": "cairo",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "-createdAt",
+									"disabled": true
+								},
+								{
+									"key": "fields",
+									"value": "name,capacity,representative",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getSpecificMobileStock",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/mobile-stocks/694dafc9d470ad1bcba58474",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"mobile-stocks",
+								"694dafc9d470ad1bcba58474"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateMobileStock",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"capacity\": 600,\n  \"name\": \"Mobile Van - Cairo Updated\"\n}"
+						},
+						"url": {
+							"raw": "{{MainHost}}/api/v1/mobile-stocks/694dafc9d470ad1bcba58474",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"mobile-stocks",
+								"694dafc9d470ad1bcba58474"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteMobileStock",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/mobile-stocks/694dafc9d470ad1bcba58474",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"mobile-stocks",
+								"694dafc9d470ad1bcba58474"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Trip",
+			"item": [
+				{
+					"name": "createTrip",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"representative\": \"694dafc9d470ad1bcba58474\",\n    \"car\": \"694dafc9d470ad1bcba58474\",\n    \"driver\": \"Ahmed Mohamed\",\n    \"location\": \"Cairo\",\n    \"date\": \"2024-01-15\"\n}"
+						},
+						"url": {
+							"raw": "{{MainHost}}/api/v1/trips",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"trips"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllTrips",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/trips",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"trips"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "10",
+									"disabled": true
+								},
+								{
+									"key": "status",
+									"value": "inprogress",
+									"disabled": true
+								},
+								{
+									"key": "representative",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "from",
+									"value": "2024-01-01",
+									"disabled": true
+								},
+								{
+									"key": "to",
+									"value": "2024-12-31",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "-date",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getSpecificTrip",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/trips/694dafc9d470ad1bcba58474",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"trips",
+								"694dafc9d470ad1bcba58474"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateTrip",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"driver\": \"Mohamed Ali\",\n  \"location\": \"Giza\"\n}"
+						},
+						"url": {
+							"raw": "{{MainHost}}/api/v1/trips/694dc2a513d713d3f590369d",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"trips",
+								"694dc2a513d713d3f590369d"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteTrip",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/trips/694dafc9d470ad1bcba58474",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"trips",
+								"694dafc9d470ad1bcba58474"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "completeTrip",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"expenseses\": 1500\n}"
+						},
+						"url": {
+							"raw": "{{MainHost}}/api/v1/trips/complete/694dafc9d470ad1bcba58474",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"trips",
+								"complete",
+								"694dafc9d470ad1bcba58474"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createTripInvoice",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/trip-invoices/694dafc9d470ad1bcba58474",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"trip-invoices",
+								"694dafc9d470ad1bcba58474"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllTripInvoices",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/trip-invoices",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"trip-invoices"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "10",
+									"disabled": true
+								},
+								{
+									"key": "from",
+									"value": "2024-01-01",
+									"disabled": true
+								},
+								{
+									"key": "to",
+									"value": "2024-12-31",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "-createdAt",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "salesOrderInTrip",
+			"item": [
+				{
+					"name": "createSaleOrderInTrip",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"customer\": \"694dafc9d470ad1bcba58474\",\n  \"orderDate\": \"2024-01-15\",\n  \"goods\": [\n    {\n      \"product\": \"694dafc9d470ad1bcba58474\",\n      \"code\": \"PROD-001\",\n      \"unit\": 10,\n      \"price\": 100,\n      \"discount\": 5\n    }\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{MainHost}}/api/v1/sale-orders-in-trip/694dc2a513d713d3f590369d",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"sale-orders-in-trip",
+								"694dc2a513d713d3f590369d"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllSaleOrdersInTrips",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/sale-orders-in-trip",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"sale-orders-in-trip"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "10",
+									"disabled": true
+								},
+								{
+									"key": "customer",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "from",
+									"value": "2024-01-01",
+									"disabled": true
+								},
+								{
+									"key": "to",
+									"value": "2024-12-31",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "-orderDate",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getSpecificSaleOrder",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/sale-orders-in-trip/sale/694dafc9d470ad1bcba58474",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"sale-orders-in-trip",
+								"sale",
+								"694dafc9d470ad1bcba58474"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Representative",
+			"item": [
+				{
+					"name": "createRepresentative",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"user\": \"694dc2a513d713d3f590369d\",\n  \"region\": \"cairo\",\n  \"territory\": \"Nasr City\",\n  \"supervisor\": \"694dc2a513d713d3f590369d\",\n  \"commissionRate\": 5,\n  \"targetSales\": 100000,\n  \"currentSales\": 25000\n}"
+						},
+						"url": {
+							"raw": "{{MainHost}}/api/v1/representatives",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"representatives"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllRepresentatives",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/representatives",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"representatives"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "10",
+									"disabled": true
+								},
+								{
+									"key": "region",
+									"value": "cairo",
+									"disabled": true
+								},
+								{
+									"key": "active",
+									"value": "true",
+									"disabled": true
+								},
+								{
+									"key": "keyword",
+									"value": "ahmed",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "-currentSales",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getRepresentativeStats",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/representatives/stats",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"representatives",
+								"stats"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getSpecificRepresentative",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/representatives/694dc667a8ce465c7a054011",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"representatives",
+								"694dc667a8ce465c7a054011"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateRepresentative",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"commissionRate\": 7,\n  \"targetSales\": 150000,\n  \"territory\": \"New Cairo\"\n}"
+						},
+						"url": {
+							"raw": "{{MainHost}}/api/v1/representatives/694dc667a8ce465c7a054011",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"representatives",
+								"694dc667a8ce465c7a054011"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteRepresentative",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{MainHost}}/api/v1/representatives/694dc667a8ce465c7a054011",
+							"host": [
+								"{{MainHost}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"representatives",
+								"694dc667a8ce465c7a054011"
 							]
 						}
 					},
