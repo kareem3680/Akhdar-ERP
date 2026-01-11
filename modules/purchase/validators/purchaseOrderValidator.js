@@ -151,10 +151,10 @@ export const updatePurchaseOrderValidator = [
     .isInt({ min: 1 })
     .withMessage("Quantity must be at least 1"),
 
-  check("products.*.price")
+  check("products.*.wholesalePrice")
     .optional()
     .isFloat({ min: 0 })
-    .withMessage("Price must be a positive number"),
+    .withMessage("wholesalePrice must be a positive number"),
 
   check("expectedDeliveryDate")
     .optional()

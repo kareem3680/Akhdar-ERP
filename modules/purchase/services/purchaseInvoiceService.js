@@ -42,22 +42,31 @@ export const createInvoiceService = asyncHandler(
       );
     }
 
-    // Process products
     const products = await Promise.all(
-      purchaseOrder.products.map(async (product) => {
-        const productDetails = await Product.findById(product.productId);
+      purchaseOrder.products.map(async (item) => {
+        const productDetails = await Product.findById(item.productId);
+        if (!productDetails) {
+          throw new ApiError("🛑 Product not found", 404);
+        }
+
         const tax = 0.14;
-        const total = product.total + product.total * tax;
+        const baseTotal = item.quantity * item.wholesalePrice;
+        const total = baseTotal + baseTotal * tax;
 
         return {
-          product: product.productId,
+          product: item.productId,
           code: productDetails.code,
-          deliveredQuantity: product.quantity,
-          quantity: product.quantity,
-          price: product.price,
+
+          deliveredQuantity: item.quantity,
+          quantity: item.quantity,
+
+          wholesalePrice: item.wholesalePrice,
+          retailPrice: productDetails.retailPrice,
+
           tax,
           total,
-          inventory: product.inventoryId,
+
+          inventory: item.inventoryId || null,
         };
       })
     );

@@ -305,7 +305,7 @@ export const getTransferDocumentService = asyncHandler(async (transferId) => {
     { path: "to", select: "name location" },
     { path: "createdBy", select: "name email" },
     { path: "approvedBy", select: "name email" },
-    { path: "products.productId", select: "name code price" },
+    { path: "products.productId", select: "name code wholesalePrice" },
   ]);
 
   if (!transfer) {

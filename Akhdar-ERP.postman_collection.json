@@ -128,7 +128,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"admin@gmail.com\",\r\n    \"password\": \"abc123\"\r\n}",
+							"raw": "{\r\n    \"email\": \"kareem3680@gmail.com\",\r\n    \"password\": \"kareem12300\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1027,7 +1027,7 @@
 								},
 								{
 									"key": "category",
-									"value": "6946fd52e7e31fb354c6f4cc",
+									"value": "6963eb12d4010f957c2de33b",
 									"type": "text"
 								},
 								{
@@ -1594,7 +1594,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"tradeName\": \"Tech Solutions Inc.\",\n  \"address\": \"123 Tech Street, Cairo\",\n  \"country\": \"Egypt\",\n  \"email\": \"info0@techsolutions.com\",\n  \"phone\": \"+201234567890\",\n  \"userId\": \"6935cb5bacde7e672806a39f\",\n  \"industry\": \"Technology\",\n  \"taxId\": \"123-456-789\",\n  \"locations\": [\"Cairo\", \"Alexandria\"]\n}"
+							"raw": "{\n    \"tradeName\": \"Tech Solutions Inc.\",\n    \"address\": \"123 Tech Street, Cairo\",\n    \"country\": \"Egypt\",\n    \"email\": \"info0@techsolutions.com\",\n    \"phone\": \"+201234567890\",\n    \"userId\": \"6963e8c39c0b173705ec728a\",\n    \"industry\": \"Technology\",\n    \"taxId\": \"123-456-789\",\n    \"locations\": [\n        \"Cairo\",\n        \"Alexandria\"\n    ]\n}"
 						},
 						"url": {
 							"raw": "{{MainHost}}/api/v1/organizations",
@@ -1963,7 +1963,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"customerId\": \"6935cb5bacde7e672806a39f\",\n  \"organizationId\": \"6935cb5bacde7e672806a39f\",\n  \"products\": [\n    {\n      \"productId\": \"6935cb5bacde7e672806a39f\",\n      \"quantity\": 5,\n      \"wholesalePrice\": 100,\n      \"retailPrice\": 100,\n      \"discount\": 10,\n      \"tax\": 14,\n      \"inventoryId\":\"6935cb5bacde7e672806a39f\" \n    }\n  ],\n  \"expectedDeliveryDate\": \"2024-12-31\",\n  \"currency\": \"EGP\",\n  \"notes\": \"Urgent delivery requested\",\n  \"shippingCost\": 50\n}"
+							"raw": "{\n  \"customerId\": \"6963ed57d4010f957c2de3ad\",\n  \"organizationId\": \"6963ef29d4010f957c2de3f6\",\n  \"products\": [\n    {\n      \"productId\": \"6963f68b9963b4eff3becb59\",\n      \"quantity\": 5,\n      \"wholesalePrice\": 100,\n      \"retailPrice\": 100,\n      \"discount\": 10,\n      \"tax\": 14,\n      \"inventoryId\":\"6963f76f4533602c697aba85\" \n    }\n  ],\n  \"expectedDeliveryDate\": \"2024-12-31\",\n  \"currency\": \"EGP\",\n  \"notes\": \"Urgent delivery requested\",\n  \"shippingCost\": 50\n}"
 						},
 						"url": {
 							"raw": "{{MainHost}}/api/v1/sale-orders",
@@ -2047,7 +2047,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{MainHost}}/api/v1/sale-orders/",
+							"raw": "{{MainHost}}/api/v1/sale-orders/696402682fa04e656299bc78",
 							"host": [
 								"{{MainHost}}"
 							],
@@ -2055,7 +2055,7 @@
 								"api",
 								"v1",
 								"sale-orders",
-								""
+								"696402682fa04e656299bc78"
 							]
 						}
 					},
@@ -4345,7 +4345,7 @@
 							"raw": "{\n    \"productId\": \"6935e862359ca5e04c76246b\",\n    \"quantity\": 100,\n    \"minQuantity\": 10,\n    \"maxQuantity\": 1000\n}"
 						},
 						"url": {
-							"raw": "{{MainHost}}/api/v1/stocks/694d7f4618ceaab20b6be0a3",
+							"raw": "{{MainHost}}/api/v1/stocks/6963efe4d4010f957c2de405",
 							"host": [
 								"{{MainHost}}"
 							],
@@ -4353,7 +4353,7 @@
 								"api",
 								"v1",
 								"stocks",
-								"694d7f4618ceaab20b6be0a3"
+								"6963efe4d4010f957c2de405"
 							]
 						}
 					},
@@ -4375,7 +4375,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{MainHost}}/api/v1/stocks/stocks/6935e862359ca5e04c76246b",
+							"raw": "{{MainHost}}/api/v1/stocks/stocks/6963efe4d4010f957c2de405",
 							"host": [
 								"{{MainHost}}"
 							],
@@ -4384,7 +4384,7 @@
 								"v1",
 								"stocks",
 								"stocks",
-								"6935e862359ca5e04c76246b"
+								"6963efe4d4010f957c2de405"
 							]
 						}
 					},
@@ -4406,7 +4406,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{MainHost}}/api/v1/stocks/6935e862359ca5e04c76246b/stocks/6935e862359ca5e04c76246b",
+							"raw": "{{MainHost}}/api/v1/stocks/6963efe4d4010f957c2de405/stocks/69641080993b5a70c79ae9e5",
 							"host": [
 								"{{MainHost}}"
 							],
@@ -4414,9 +4414,9 @@
 								"api",
 								"v1",
 								"stocks",
-								"6935e862359ca5e04c76246b",
+								"6963efe4d4010f957c2de405",
 								"stocks",
-								"6935e862359ca5e04c76246b"
+								"69641080993b5a70c79ae9e5"
 							]
 						}
 					},
@@ -4513,10 +4513,10 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"products\": [\n    {\n      \"inventoryId\": \"6935e862359ca5e04c76246b\",\n      \"productId\": \"6935e862359ca5e04c76246b\",\n      \"deliveredQuantity\": 50\n    }\n  ]\n}"
+							"raw": "{\n  \"products\": [\n    {\n      \"inventoryId\": \"6963f76f4533602c697aba85\",\n      \"productId\": \"6935e862359ca5e04c76246b\",\n      \"deliveredQuantity\": 50\n    }\n  ]\n}"
 						},
 						"url": {
-							"raw": "{{MainHost}}/api/v1/stocks/purchase-orders/stock-in/6935e862359ca5e04c76246b",
+							"raw": "{{MainHost}}/api/v1/stocks/purchase-orders/stock-in/696408f421eb8c61daa0bec4",
 							"host": [
 								"{{MainHost}}"
 							],
@@ -4526,7 +4526,7 @@
 								"stocks",
 								"purchase-orders",
 								"stock-in",
-								"6935e862359ca5e04c76246b"
+								"696408f421eb8c61daa0bec4"
 							]
 						}
 					},
@@ -6901,10 +6901,10 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"customer\": \"694dafc9d470ad1bcba58474\",\n  \"orderDate\": \"2024-01-15\",\n  \"goods\": [\n    {\n      \"product\": \"694dafc9d470ad1bcba58474\",\n      \"code\": \"PROD-001\",\n      \"unit\": 10,\n      \"price\": 100,\n      \"discount\": 5\n    }\n  ]\n}"
+							"raw": "{\n  \"customer\": \"694dafc9d470ad1bcba58474\",\n  \"orderDate\": \"2024-01-15\",\n  \"goods\": [\n    {\n      \"product\": \"694dafc9d470ad1bcba58474\",\n      \"code\": \"PROD-001\",\n      \"unit\": 10,\n      \"wholesalePrice\": 100,\n      \"discount\": 5\n    }\n  ]\n}"
 						},
 						"url": {
-							"raw": "{{MainHost}}/api/v1/sale-orders-in-trip/694dc2a513d713d3f590369d",
+							"raw": "{{MainHost}}/api/v1/sale-orders-in-trip/69641c05e09bb128e62519fc",
 							"host": [
 								"{{MainHost}}"
 							],
@@ -6912,7 +6912,7 @@
 								"api",
 								"v1",
 								"sale-orders-in-trip",
-								"694dc2a513d713d3f590369d"
+								"69641c05e09bb128e62519fc"
 							]
 						}
 					},

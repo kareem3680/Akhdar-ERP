@@ -98,7 +98,10 @@ export const getStatsService = asyncHandler(async (req) => {
 
   // Calculate total product cost
   const products = await Product.find();
-  let totalProductsAmount = products.reduce((acc, cur) => acc + cur.price, 0);
+  let totalProductsAmount = products.reduce(
+    (acc, cur) => acc + cur.wholesalePrice,
+    0
+  );
   totalGrossProfit = totalSaleAmount - totalProductsAmount;
 
   // Net profit

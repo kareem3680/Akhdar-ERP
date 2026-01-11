@@ -127,7 +127,7 @@ export const getTripInvoicesService = asyncHandler(async (req) => {
             },
             {
               path: "goods.product",
-              select: "name code price",
+              select: "name code wholesalePrice",
             },
           ],
         },
@@ -161,7 +161,7 @@ export const getTripInvoiceService = asyncHandler(async (id) => {
       },
       {
         path: "goods.product",
-        select: "name code price description category",
+        select: "name code wholesalePrice description category",
         populate: {
           path: "supplier",
           select: "name contact",

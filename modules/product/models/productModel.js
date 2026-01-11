@@ -53,17 +53,17 @@ const productSchema = new Schema(
 
 // Pre-save middleware to calculate total
 productSchema.pre("save", function (next) {
-  this.total = this.unit * this.price;
+  this.total = this.unit * this.wholesalePrice;
   next();
 });
 
 // Pre-update middleware for findOneAndUpdate
 productSchema.pre("findOneAndUpdate", function (next) {
   const update = this.getUpdate();
-  if (update.unit !== undefined || update.price !== undefined) {
-    const price = update.price || this._update.price;
+  if (update.unit !== undefined || update.wholesalePrice !== undefined) {
+    const wholesalePrice = update.wholesalePrice || this._update.wholesalePrice;
     const unit = update.unit || this._update.unit;
-    this.set({ total: (price || 0) * (unit || 0) });
+    this.set({ total: (wholesalePrice || 0) * (unit || 0) });
   }
   next();
 });

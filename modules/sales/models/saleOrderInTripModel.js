@@ -16,7 +16,7 @@ const saleOrderInTripSchema = new mongoose.Schema({
       },
       code: String,
       unit: Number,
-      price: Number,
+      wholesalePrice: Number,
       discount: Number,
       total: Number,
     },

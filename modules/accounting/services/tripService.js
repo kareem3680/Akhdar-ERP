@@ -1,5 +1,6 @@
 import asyncHandler from "express-async-handler";
 import ApiError from "../../../utils/apiError.js";
+import mongoose from "mongoose";
 import Logger from "../../../utils/loggerService.js";
 import tripModel from "../models/tripModel.js";
 import {

@@ -1,5 +1,7 @@
 import Inventory from "../modules/inv/models/inventoryModel.js";
 import Product from "../modules/product/models/productModel.js";
+import PurchaseOrder from "../modules/purchase/models/purchaseOrderModel.js";
+import Stock from "../modules/inv/models/stockModel.js";
 import ApiError from "../utils/apiError.js";
 import Logger from "../utils/loggerService.js";
 
@@ -72,7 +74,7 @@ export const calculatePurchaseTotals = async (purchaseOrderData) => {
   // Calculate product totals
   const calculatedProducts = await Promise.all(
     products.map(async (product) => {
-      const { productId, quantity, price, discount = 0 } = product;
+      const { productId, quantity, wholesalePrice, discount = 0 } = product;
 
       // Get product details
       const productDetails = await Product.findById(productId).select("name");
@@ -81,7 +83,7 @@ export const calculatePurchaseTotals = async (purchaseOrderData) => {
       }
 
       // Calculate product total
-      const baseAmount = quantity * price;
+      const baseAmount = quantity * wholesalePrice;
       const discountAmount = (baseAmount * discount) / 100;
       const productTotal = baseAmount - discountAmount;
 

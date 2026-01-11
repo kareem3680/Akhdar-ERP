@@ -717,7 +717,7 @@ export function sanitizeSaleOrderInTrip(saleOrder) {
           product: good.product,
           code: good.code,
           unit: good.unit,
-          price: good.price,
+          wholesalePrice: good.wholesalePrice,
           discount: good.discount,
           total: good.total,
         })),

@@ -84,7 +84,7 @@ export const createStockService = asyncHandler(async (inventoryId, body) => {
 export const getStockService = asyncHandler(async (stockId) => {
   const stock = await getSpecificService(Stock, stockId, {
     populate: [
-      { path: "productId", select: "name code price" },
+      { path: "productId", select: "name code wholesalePrice" },
       { path: "inventoryId", select: "name location" },
       { path: "lastUpdatedBy", select: "name email" },
     ],
@@ -185,7 +185,6 @@ export const stockInService = asyncHandler(
     const purchaseOrder = await PurchaseOrder.findById(purchaseOrderId);
 
     if (!purchaseOrder) {
-      await logger.error("Purchase order not found", { purchaseOrderId });
       throw new ApiError(
         `🛑 No purchase order found with ID: ${purchaseOrderId}`,
         404
@@ -193,18 +192,44 @@ export const stockInService = asyncHandler(
     }
 
     if (purchaseOrder.status === "delivered") {
-      await logger.error("Purchase order already delivered", {
-        purchaseOrderId,
-      });
       throw new ApiError("🛑 Purchase order is already delivered", 400);
     }
 
-    let stocks = [];
+    const stocks = [];
     const inventoryUpdates = [];
 
-    // Process each product
-    for (let product of products) {
+    for (const product of products) {
       const { inventoryId, productId, deliveredQuantity } = product;
+
+      // 🔴 Validate input
+      if (!inventoryId || !productId || !deliveredQuantity) {
+        throw new ApiError(
+          "🛑 inventoryId, productId and deliveredQuantity are required",
+          400
+        );
+      }
+
+      // 🔴 Check inventory existence
+      const inventory = await Inventory.findById(inventoryId);
+
+      if (!inventory) {
+        await logger.error("Inventory not found during stock in", {
+          inventoryId,
+          productId,
+        });
+        throw new ApiError(
+          `🛑 No inventory found with ID: ${inventoryId}`,
+          404
+        );
+      }
+
+      // 🔴 Capacity check
+      if (deliveredQuantity > inventory.capacity) {
+        throw new ApiError(
+          `🛑 Insufficient inventory capacity. Available: ${inventory.capacity}`,
+          400
+        );
+      }
 
       // Find or create stock
       let stock = await Stock.findOne({ productId, inventoryId });
@@ -223,17 +248,15 @@ export const stockInService = asyncHandler(
       stocks.push(stock);
 
       // Update inventory capacity
-      const inventory = await Inventory.findById(inventoryId);
       inventory.capacity -= deliveredQuantity;
       inventoryUpdates.push(inventory.save({ validateBeforeSave: false }));
     }
 
-    // Update all inventories
     await Promise.all(inventoryUpdates);
 
-    // Update purchase order
+    // Update purchase order status
     const totalRemaining = purchaseOrder.products.reduce(
-      (acc, cur) => acc + (cur.remainingQuantity || cur.quantity),
+      (acc, cur) => acc + (cur.remainingQuantity ?? cur.quantity),
       0
     );
 
@@ -242,7 +265,6 @@ export const stockInService = asyncHandler(
       await purchaseOrder.save({ validateBeforeSave: false });
     }
 
-    // Create journal entry
     await createPurchaseJournalEntry(purchaseOrder);
 
     await logger.info("Stock in completed successfully", {

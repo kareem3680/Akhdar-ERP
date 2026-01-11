@@ -48,13 +48,16 @@ export const createSaleInvoiceService = asyncHandler(
         }
 
         const itemTotal =
-          item.quantity * item.price * (1 - (item.discount || 0) / 100);
+          item.quantity *
+          item.wholesalePrice *
+          (1 - (item.discount || 0) / 100);
 
         return {
           product: item.productId,
           code: product.code,
           quantity: item.quantity,
-          price: item.price,
+          retailPrice: item.retailPrice ?? product.retailPrice,
+          wholesalePrice: item.wholesalePrice ?? product.wholesalePrice,
           discount: item.discount || 0,
           tax: item.tax || 0,
           total: itemTotal,
@@ -159,7 +162,7 @@ export const getSpecificSaleInvoiceService = asyncHandler(async (id, req) => {
       { path: "saleOrderId", select: "orderNumber status createdAt" },
       {
         path: "products.product",
-        select: "name code description price tax unit img",
+        select: "name code description wholesalePrice tax unit img",
       },
       { path: "createdBy", select: "name email role" },
     ],

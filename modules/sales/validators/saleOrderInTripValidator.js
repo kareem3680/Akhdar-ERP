@@ -36,11 +36,11 @@ export const createSaleOrderInTripValidator = [
     .isNumeric()
     .withMessage("Unit must be a number"),
 
-  check("goods.*.price")
+  check("goods.*.wholesalePrice")
     .notEmpty()
-    .withMessage("Price is required")
+    .withMessage("wholesalePrice is required")
     .isNumeric()
-    .withMessage("Price must be a number"),
+    .withMessage("wholesalePrice must be a number"),
 
   check("goods.*.discount")
     .optional()

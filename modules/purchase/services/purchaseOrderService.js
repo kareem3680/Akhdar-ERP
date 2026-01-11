@@ -115,7 +115,7 @@ export const getSpecificPurchaseOrderService = asyncHandler(async (id, req) => {
       { path: "organizationId", select: "tradeName email phone address" },
       {
         path: "products.productId",
-        select: "name code description price",
+        select: "name code description wholesalePrice",
       },
       { path: "products.inventoryId", select: "name location capacity" },
       { path: "createdBy", select: "name email role" },

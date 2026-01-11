@@ -45,9 +45,8 @@ export const getUsersService = asyncHandler(async (req) => {
   await logger.info("Fetched all users");
 
   return {
-    stats: { total, drivers, admins, employee },
-    data: result.data.map(sanitizeUser),
     results: result.results,
+    data: result.data.map(sanitizeUser),
     paginationResult: result.paginationResult,
   };
 });

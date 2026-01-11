@@ -3,7 +3,10 @@ import ApiError from "../../../utils/apiError.js";
 import Logger from "../../../utils/loggerService.js";
 const logger = new Logger("loan-installment");
 
-import { sanitizeLoanInstallment } from "../../../utils/sanitizeData.js";
+import {
+  sanitizeLoanInstallment,
+  sanitizeLoan,
+} from "../../../utils/sanitizeData.js";
 import LoanInstallment from "../models/loanInstallmentModel.js";
 import Loan from "../models/loanModel.js";
 import Journal from "../models/journalModel.js";

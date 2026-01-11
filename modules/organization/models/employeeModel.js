@@ -106,7 +106,6 @@ const employeeSchema = new Schema(
     manager: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Employee", // Self-referencing for manager
-      required: [true, "Manager is required"],
     },
     salary: {
       type: Number,

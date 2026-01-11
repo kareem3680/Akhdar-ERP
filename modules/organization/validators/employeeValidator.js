@@ -94,8 +94,7 @@ export const createEmployeeValidator = [
     .default("employee"),
 
   check("manager")
-    .notEmpty()
-    .withMessage("Manager is required")
+    .optional()
     .isMongoId()
     .withMessage("Invalid manager ID format")
     .custom(async (value, { req }) => {

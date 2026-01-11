@@ -1,4 +1,5 @@
 import Stock from "../modules/inv/models/stockModel.js";
+import SaleOrder from "../modules/sales/models/saleOrderModel.js";
 import Product from "../modules/product/models/productModel.js";
 import ApiError from "../utils/apiError.js";
 import Logger from "../utils/loggerService.js";
@@ -71,52 +72,58 @@ export const checkStockAvailability = async (saleOrderData) => {
 export const calculateOrderTotals = async (saleOrderData) => {
   const { products, shippingCost = 0 } = saleOrderData;
 
-  // Calculate product totals
   const calculatedProducts = await Promise.all(
-    products.map(async (product) => {
-      const { productId, quantity, price, discount = 0, tax = 0 } = product;
+    products.map(async (item) => {
+      const { productId, quantity, discount = 0, tax = 0 } = item;
 
-      // Get product details
+      if (!quantity || quantity <= 0) {
+        throw new ApiError("Invalid product quantity", 400);
+      }
+
       const productDetails = await Product.findById(productId).select(
-        "name code"
+        "name code wholesalePrice tax"
       );
+
       if (!productDetails) {
         throw new ApiError(`Product ${productId} not found`, 404);
       }
 
-      // Calculate product total
-      const baseAmount = quantity * price;
-      const discountAmount = (baseAmount * discount) / 100;
+      const wholesalePrice = Number(productDetails.wholesalePrice);
+      const safeDiscount = Number(discount) || 0;
+      const safeTax = Number(tax ?? productDetails.tax ?? 0);
+
+      const baseAmount = quantity * wholesalePrice;
+      const discountAmount = (baseAmount * safeDiscount) / 100;
       const amountAfterDiscount = baseAmount - discountAmount;
-      const taxAmount = (amountAfterDiscount * tax) / 100;
-      const productTotal = amountAfterDiscount + taxAmount;
+      const taxAmount = (amountAfterDiscount * safeTax) / 100;
+      const total = amountAfterDiscount + taxAmount;
+
+      if (Number.isNaN(total)) {
+        throw new ApiError("Invalid calculation for product total", 400);
+      }
 
       return {
-        ...product,
+        ...item,
         name: productDetails.name,
         code: productDetails.code,
-        total: productTotal,
+        wholesalePrice,
+        tax: safeTax,
+        total,
       };
     })
   );
 
-  // Calculate order total
-  const productsTotal = calculatedProducts.reduce(
-    (sum, product) => sum + product.total,
-    0
-  );
-  const orderTotal = productsTotal + shippingCost;
+  const productsTotal = calculatedProducts.reduce((sum, p) => sum + p.total, 0);
 
-  await logger.info("Order totals calculated", {
-    productsCount: calculatedProducts.length,
-    productsTotal,
-    shippingCost,
-    orderTotal,
-  });
+  const totalAmount = productsTotal + Number(shippingCost || 0);
+
+  if (Number.isNaN(totalAmount)) {
+    throw new ApiError("Invalid order total calculation", 400);
+  }
 
   return {
     products: calculatedProducts,
-    totalAmount: orderTotal,
+    totalAmount,
   };
 };
 
@@ -151,6 +158,7 @@ export const generateInvoiceNumber = async (saleOrderData) => {
 export const validateStatusTransition = (currentStatus, newStatus, userId) => {
   const validTransitions = {
     draft: ["approved", "canceled"],
+    pending: ["approved", "canceled"],
     approved: ["shipped", "canceled"],
     shipped: ["delivered", "canceled"],
     delivered: [], // Cannot change from delivered

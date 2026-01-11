@@ -29,7 +29,7 @@ export const createSaleOrderInTripService = asyncHandler(
 
     // Validate each product
     for (let product of goods) {
-      if (!product.product || !product.unit || !product.price) {
+      if (!product.product || !product.unit || !product.wholesalePrice) {
         await logger.error("Invalid product data", { product });
         throw new ApiError("🛑 Product data is incomplete", 400);
       }
@@ -38,15 +38,15 @@ export const createSaleOrderInTripService = asyncHandler(
     // Calculate product totals
     const products = goods.map((product) => {
       const discountAmount = product.discount
-        ? (product.discount / 100) * (product.price * product.unit)
+        ? (product.discount / 100) * (product.wholesalePrice * product.unit)
         : 0;
-      const total = product.price * product.unit - discountAmount;
+      const total = product.wholesalePrice * product.unit - discountAmount;
 
       return {
         product: product.product,
         code: product.code || `PROD-${Date.now()}`,
         unit: product.unit,
-        price: product.price,
+        wholesalePrice: product.wholesalePrice,
         discount: product.discount || 0,
         total,
       };
@@ -97,7 +97,7 @@ export const getSaleOrdersInTripService = asyncHandler(async (req) => {
         },
         {
           path: "goods.product",
-          select: "name code price description category",
+          select: "name code wholesalePrice description category",
           populate: {
             path: "supplier",
             select: "name contact",
@@ -131,7 +131,7 @@ export const getSaleOrderInTripService = asyncHandler(async (id) => {
       },
       {
         path: "goods.product",
-        select: "name code price description category unit",
+        select: "name code wholesalePrice description category unit",
         populate: [
           {
             path: "supplier",

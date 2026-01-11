@@ -85,7 +85,7 @@ export const getSaleOrdersService = asyncHandler(async (req) => {
       populate: [
         { path: "customerId", select: "name email phone" },
         { path: "organizationId", select: "tradeName email" },
-        { path: "products.productId", select: "name code price" },
+        { path: "products.productId", select: "name code wholesalePrice" },
         { path: "createdBy", select: "name email" },
       ],
     }
@@ -114,7 +114,7 @@ export const getSpecificSaleOrderService = asyncHandler(async (id, req) => {
       { path: "organizationId", select: "tradeName email phone address" },
       {
         path: "products.productId",
-        select: "name code description price tax unit img",
+        select: "name code description wholesalePrice tax unit img",
       },
       { path: "products.inventoryId", select: "name location" },
       { path: "createdBy", select: "name email role" },

@@ -1,4 +1,5 @@
 import asyncHandler from "express-async-handler";
+import mongoose from "mongoose";
 import ApiError from "../../../utils/apiError.js";
 import Logger from "../../../utils/loggerService.js";
 import mobileStockModel from "../models/mobileStockModel.js";
@@ -119,14 +120,6 @@ export const getMobileStocksService = asyncHandler(async (req) => {
     {
       populate: [
         {
-          path: "representative",
-          select: "name email phone region",
-          populate: {
-            path: "organizations.organization_id",
-            select: "name code",
-          },
-        },
-        {
           path: "goods.stock",
           select: "name quantity code",
           populate: {
@@ -154,16 +147,8 @@ export const getMobileStockService = asyncHandler(async (id) => {
   const mobileStock = await getSpecificService(mobileStockModel, id, {
     populate: [
       {
-        path: "representative",
-        select: "name email phone region position",
-        populate: {
-          path: "organizations.organization_id",
-          select: "name code address",
-        },
-      },
-      {
         path: "goods.stock",
-        select: "name quantity code unitPrice",
+        select: "name quantity code unit wholesalePrice",
         populate: [
           {
             path: "inventoryId",

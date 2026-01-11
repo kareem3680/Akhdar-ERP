@@ -60,9 +60,10 @@ const stockTransferSchema = new mongoose.Schema(
 );
 
 // Pre-save hook to generate reference if not provided
-stockTransferSchema.pre("save", async function (next) {
+stockTransferSchema.pre("validate", async function (next) {
   if (!this.reference) {
     const count = await mongoose.model("StockTransfer").countDocuments();
+
     this.reference = `TR-${Date.now()}-${count + 1}`;
   }
   next();
