@@ -7,7 +7,7 @@ Designed as a **modular monolith** with **enterprise-grade architecture** tailor
 
 ## 🔗 Quick Links
 
-- [🌐 Production API](#) _(To be deployed)_
+- [🌐 Production API](https://akhdar-erp-dev.vercel.app)
 - [💻 Local API](http://localhost:3000)
 - [📘 Postman Documentation](https://documenter.getpostman.com/view/38670371/2sB3dMxWrk)
 - [📋 API Documentation](https://documenter.getpostman.com/view/38670371/2sB3dMxWrk)
