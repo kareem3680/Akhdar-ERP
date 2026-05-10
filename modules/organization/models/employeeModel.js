@@ -127,12 +127,19 @@ const employeeSchema = new Schema(
     deletedAt: {
       type: Date,
     },
+    documents: [
+      {
+        fileId: String,
+        viewLink: String,
+        downloadLink: String,
+      },
+    ],
   },
   {
     timestamps: true,
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
-  }
+  },
 );
 
 // Virtual for full work experience

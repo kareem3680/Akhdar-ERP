@@ -31,7 +31,7 @@ export const createEmployeeValidator = [
     .withMessage("Phone is required")
     .isMobilePhone(["ar-EG", "ar-SA"])
     .withMessage(
-      "Phone number must be a valid Egyptian or Saudi mobile number"
+      "Phone number must be a valid Egyptian or Saudi mobile number",
     ),
 
   check("nationalId")
@@ -89,7 +89,7 @@ export const createEmployeeValidator = [
       "supervisor",
     ])
     .withMessage(
-      "Role must be one of: admin, employee, manager, HR, CEO, accountant, supervisor"
+      "Role must be one of: admin, employee, manager, HR, CEO, accountant, supervisor",
     )
     .default("employee"),
 
@@ -153,7 +153,7 @@ export const createEmployeeValidator = [
     .withMessage("Level of experience is required")
     .isIn(["junior", "mid", "senior", "expert"])
     .withMessage(
-      "Level of experience must be one of: junior, mid, senior, expert"
+      "Level of experience must be one of: junior, mid, senior, expert",
     ),
 
   check("employmentType")
@@ -175,7 +175,7 @@ export const createEmployeeValidator = [
     .optional()
     .isMobilePhone(["ar-EG", "ar-SA"])
     .withMessage(
-      "Alternative phone must be a valid Egyptian or Saudi mobile number"
+      "Alternative phone must be a valid Egyptian or Saudi mobile number",
     ),
 
   check("birthDate")
@@ -223,6 +223,26 @@ export const createEmployeeValidator = [
   validatorMiddleWare,
 ];
 
+export const addEmployeeDocumentsValidator = [
+  check("employeeId").isMongoId().withMessage("Invalid Employee ID format"),
+
+  check("documents")
+    .optional()
+    .custom((_, { req }) => {
+      if (!req.files?.documents?.length) {
+        throw new Error("At least one PDF document is required");
+      }
+
+      if (req.files.documents.length > 5) {
+        throw new Error("Maximum 5 documents allowed per upload");
+      }
+
+      return true;
+    }),
+
+  validatorMiddleWare,
+];
+
 export const updateEmployeeValidator = [
   check("employeeId").isMongoId().withMessage("Invalid Employee Id Format"),
 
@@ -256,7 +276,7 @@ export const updateEmployeeValidator = [
     .optional()
     .isMobilePhone(["ar-EG", "ar-SA"])
     .withMessage(
-      "Phone number must be a valid Egyptian or Saudi mobile number"
+      "Phone number must be a valid Egyptian or Saudi mobile number",
     ),
 
   check("nationalId")
@@ -311,7 +331,7 @@ export const updateEmployeeValidator = [
     .optional()
     .isMobilePhone(["ar-EG", "ar-SA"])
     .withMessage(
-      "Alternative phone must be a valid Egyptian or Saudi mobile number"
+      "Alternative phone must be a valid Egyptian or Saudi mobile number",
     ),
 
   check("birthDate")
@@ -322,7 +342,7 @@ export const updateEmployeeValidator = [
       if (value) {
         const birthDate = new Date(value);
         const today = new Date();
-        const age = today.getFullYear() - birthDate.getFullYear();
+        let age = today.getFullYear() - birthDate.getFullYear();
 
         // Adjust age if birthday hasn't occurred this year
         const monthDiff = today.getMonth() - birthDate.getMonth();
@@ -388,7 +408,7 @@ export const updateEmployeeValidator = [
       "supervisor",
     ])
     .withMessage(
-      "Role must be one of: admin, employee, manager, HR, CEO, accountant, supervisor"
+      "Role must be one of: admin, employee, manager, HR, CEO, accountant, supervisor",
     ),
 
   validatorMiddleWare,

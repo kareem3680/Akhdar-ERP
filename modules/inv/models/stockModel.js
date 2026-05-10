@@ -10,7 +10,10 @@ const stockSchema = new Schema(
     inventoryId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Inventory",
-      required: [true, "Inventory ID is required"],
+    },
+    mobileStockId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "MobileStock",
     },
     quantity: {
       type: Number,
@@ -64,11 +67,39 @@ const stockSchema = new Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
+// Validation for either inventoryId or mobileStockId
+stockSchema.pre("validate", function (next) {
+  if (!this.inventoryId && !this.mobileStockId) {
+    return next(new Error("Either inventoryId or mobileStockId is required"));
+  }
+
+  if (this.inventoryId && this.mobileStockId) {
+    return next(new Error("Cannot have both inventoryId and mobileStockId"));
+  }
+
+  next();
+});
+
 // Compound index for unique product-inventory combination
-stockSchema.index({ productId: 1, inventoryId: 1 }, { unique: true });
+stockSchema.index(
+  { productId: 1, inventoryId: 1 },
+  {
+    unique: true,
+    partialFilterExpression: { inventoryId: { $exists: true } },
+  },
+);
+
+// Compound index for unique product-mobileStock combination
+stockSchema.index(
+  { productId: 1, mobileStockId: 1 },
+  {
+    unique: true,
+    partialFilterExpression: { mobileStockId: { $exists: true } },
+  },
+);
 
 // Pre-save middleware to update status based on quantity
 stockSchema.pre("save", function (next) {
@@ -94,12 +125,21 @@ stockSchema.methods.getAvailableQuantity = function () {
   return Math.max(0, this.quantity - this.minQuantity);
 };
 
-// Static method to find stock by product and inventory
-stockSchema.statics.findByProductAndInventory = function (
+// Static method to find stock by product and inventory/mobileStock
+stockSchema.statics.findByProductAndLocation = function (
   productId,
-  inventoryId
+  locationId,
+  locationType = "inventory", // 'inventory' or 'mobile-stock'
 ) {
-  return this.findOne({ productId, inventoryId, isActive: true });
+  const query = { productId, isActive: true };
+
+  if (locationType === "inventory") {
+    query.inventoryId = locationId;
+  } else {
+    query.mobileStockId = locationId;
+  }
+
+  return this.findOne(query);
 };
 
 const Stock = model("Stock", stockSchema);

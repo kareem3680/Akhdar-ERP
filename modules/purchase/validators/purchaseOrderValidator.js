@@ -203,14 +203,5 @@ export const updateStatusValidator = [
 
 export const deliverPurchaseOrderValidator = [
   check("id").isMongoId().withMessage("Invalid Purchase Order ID Format"),
-  check("deliveredQuantities")
-    .notEmpty()
-    .withMessage("Delivered quantities array is required")
-    .isArray()
-    .withMessage("Delivered quantities must be an array"),
-  check("deliveredQuantities.*")
-    .optional()
-    .isInt({ min: 0 })
-    .withMessage("Each delivered quantity must be a positive number"),
   validatorMiddleware,
 ];

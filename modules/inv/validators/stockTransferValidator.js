@@ -1,3 +1,4 @@
+// validators/stockTransferValidator.js
 import { check } from "express-validator";
 import validatorMiddleWare from "../../../middlewares/validatorMiddleware.js";
 
@@ -9,10 +10,14 @@ export const createStockTransferValidator = [
     .withMessage("Invalid source inventory ID"),
 
   check("to")
-    .notEmpty()
-    .withMessage("Destination inventory is required")
+    .optional()
     .isMongoId()
     .withMessage("Invalid destination inventory ID"),
+
+  check("toMobileStock")
+    .optional()
+    .isMongoId()
+    .withMessage("Invalid destination mobile stock ID"),
 
   check("products")
     .isArray({ min: 1 })
@@ -35,36 +40,18 @@ export const createStockTransferValidator = [
     .isFloat({ min: 0 })
     .withMessage("Shipping cost cannot be negative"),
 
-  validatorMiddleWare,
-];
-
-export const updateStockTransferValidator = [
-  check("stockTransferId")
-    .isMongoId()
-    .withMessage("Invalid stock transfer ID format"),
-
-  check("status")
+  check("notes")
     .optional()
-    .isIn(["draft", "shipping", "delivered", "cancelled"])
-    .withMessage("Invalid status"),
-
-  check("shippingCost")
-    .optional()
-    .isFloat({ min: 0 })
-    .withMessage("Shipping cost cannot be negative"),
+    .isString()
+    .withMessage("Notes must be a string")
+    .isLength({ max: 500 })
+    .withMessage("Notes cannot exceed 500 characters"),
 
   validatorMiddleWare,
 ];
 
-export const transferActionValidator = [
-  check("transferOrderId")
-    .isMongoId()
-    .withMessage("Invalid transfer order ID format"),
-
-  check("shippingCost")
-    .optional()
-    .isFloat({ min: 0 })
-    .withMessage("Shipping cost cannot be negative"),
+export const getTransferDocumentValidator = [
+  check("transferId").isMongoId().withMessage("Invalid transfer ID format"),
 
   validatorMiddleWare,
 ];

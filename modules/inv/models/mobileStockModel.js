@@ -3,45 +3,29 @@ import mongoose from "mongoose";
 const mobileStockSchema = new mongoose.Schema(
   {
     representative: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Representative",
+      type: String,
       required: [true, "provide representative"],
     },
-    goods: [
-      {
-        stock: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Stock",
-        },
-        quantity: Number,
-      },
-    ],
-    capacity: Number,
+    capacity: {
+      type: Number,
+      required: [true, "provide capacity"],
+    },
+    year: {
+      type: Number,
+      required: [true, "provide year"],
+    },
     name: {
       type: String,
       required: [true, "provide name of mobile stock"],
+      trim: true,
+    },
+    brand: {
+      type: String,
+      required: [true, "provide brand of mobile stock"],
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
-
-mobileStockSchema.pre("save", async function (next) {
-  const { goods } = this;
-  await Promise.all(
-    goods.map(async (product) => {
-      const stock = await mongoose.model("Stock").findById(product.stock);
-      const inventory = await mongoose
-        .model("Inventory")
-        .findById(stock.inventoryId);
-      stock.quantity -= product.quantity;
-      inventory.capacity += product.quantity;
-      this.capacity -= product.quantity;
-      await stock.save({ validateBeforeSave: false });
-      await inventory.save({ validateBeforeSave: false });
-    })
-  );
-  next();
-});
 
 const mobileStockModel = mongoose.model("MobileStock", mobileStockSchema);
 export default mobileStockModel;

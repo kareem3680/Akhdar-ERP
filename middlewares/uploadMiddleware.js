@@ -2,9 +2,8 @@ import multer from "multer";
 import { v2 as cloudinary } from "cloudinary";
 import { v4 as uuidv4 } from "uuid";
 import path from "path";
-import fs from "fs";
-import ApiError from "../utils/apiError.js";
 import dotenv from "dotenv";
+import ApiError from "../utils/apiError.js";
 
 // Load environment variables
 dotenv.config({ path: "config.env", quiet: true });
@@ -20,19 +19,9 @@ cloudinary.config({
 });
 
 // ========================
-// Multer Disk Storage
+// Multer Memory Storage
 // ========================
-const tempStorage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    const folder = "uploads/";
-    fs.mkdirSync(folder, { recursive: true });
-    cb(null, folder);
-  },
-  filename: (req, file, cb) => {
-    const uniqueName = `${uuidv4()}${path.extname(file.originalname)}`;
-    cb(null, uniqueName);
-  },
-});
+const memoryStorage = multer.memoryStorage();
 
 // ========================
 // File Filter
@@ -40,7 +29,7 @@ const tempStorage = multer.diskStorage({
 const fileFilter = (req, file, cb) => {
   const allowedTypes = /jpeg|jpg|png|gif|webp/;
   const extname = allowedTypes.test(
-    path.extname(file.originalname).toLowerCase()
+    path.extname(file.originalname).toLowerCase(),
   );
   const mimetype = allowedTypes.test(file.mimetype);
 
@@ -52,10 +41,10 @@ const fileFilter = (req, file, cb) => {
 };
 
 // ========================
-// Multer Instance
+// Multer Instance with Memory Storage
 // ========================
 const upload = multer({
-  storage: tempStorage,
+  storage: memoryStorage,
   limits: {
     fileSize: 10 * 1024 * 1024,
     files: 10,
@@ -71,7 +60,7 @@ const isFileAlreadyProcessed = (file) => {
 };
 
 // ========================
-// Upload File to Cloudinary
+// Upload File to Cloudinary from Memory Buffer
 // ========================
 const uploadToCloudinary = async (file, folder = "ERP") => {
   // Check if file already processed
@@ -79,29 +68,18 @@ const uploadToCloudinary = async (file, folder = "ERP") => {
     return file.processed;
   }
 
-  if (!file || !file.path) {
+  if (!file || !file.buffer) {
     throw new Error("Invalid file object");
   }
 
-  if (!fs.existsSync(file.path)) {
-    throw new Error("File not found");
-  }
-
   try {
-    const result = await cloudinary.uploader.upload(file.path, {
+    const base64String = `data:${file.mimetype};base64,${file.buffer.toString("base64")}`;
+
+    const result = await cloudinary.uploader.upload(base64String, {
       folder,
       public_id: `${uuidv4()}-${Date.now()}`,
       resource_type: "auto",
     });
-
-    // Delete temp file
-    try {
-      if (fs.existsSync(file.path)) {
-        fs.unlinkSync(file.path);
-      }
-    } catch (unlinkError) {
-      // Silent fail for temp file deletion
-    }
 
     return {
       url: result.secure_url,
@@ -111,15 +89,7 @@ const uploadToCloudinary = async (file, folder = "ERP") => {
       originalName: file.originalname,
     };
   } catch (error) {
-    // Clean up on error
-    try {
-      if (file.path && fs.existsSync(file.path)) {
-        fs.unlinkSync(file.path);
-      }
-    } catch (cleanupError) {
-      // Silent fail for cleanup
-    }
-
+    console.error("Cloudinary upload error:", error);
     throw new Error("Cloudinary upload failed");
   }
 };
@@ -184,12 +154,12 @@ export const processUpload = async (req, res, next) => {
               ...file,
               processed,
             };
-          })
+          }),
         );
 
         if (req.files.length > 0 && req.files[0].fieldname) {
           req.body[req.files[0].fieldname] = req.files.map(
-            (f) => f.processed?.url
+            (f) => f.processed?.url,
           );
         }
       } else {
@@ -206,11 +176,11 @@ export const processUpload = async (req, res, next) => {
                 ...file,
                 processed,
               };
-            })
+            }),
           );
 
           req.body[fieldName] = req.files[fieldName].map(
-            (f) => f.processed?.url
+            (f) => f.processed?.url,
           );
         }
       }
@@ -220,32 +190,7 @@ export const processUpload = async (req, res, next) => {
     req._filesProcessed = true;
     next();
   } catch (error) {
-    // Cleanup any temp files
-    const cleanupFiles = [];
-
-    if (req.file && req.file.path && fs.existsSync(req.file.path)) {
-      cleanupFiles.push(req.file.path);
-    }
-
-    if (req.files) {
-      const allFiles = Array.isArray(req.files)
-        ? req.files
-        : Object.values(req.files).flat();
-      allFiles.forEach((file) => {
-        if (file && file.path && fs.existsSync(file.path)) {
-          cleanupFiles.push(file.path);
-        }
-      });
-    }
-
-    cleanupFiles.forEach((filePath) => {
-      try {
-        fs.unlinkSync(filePath);
-      } catch (e) {
-        // Silent cleanup
-      }
-    });
-
+    console.error("Upload processing error:", error);
     next(new ApiError("Upload failed", 500));
   }
 };
@@ -258,6 +203,7 @@ export const deleteFromCloudinary = async (publicId) => {
     await cloudinary.uploader.destroy(publicId);
     return true;
   } catch (error) {
+    console.error("Cloudinary delete error:", error);
     return false;
   }
 };
@@ -267,15 +213,7 @@ export const deleteFromCloudinary = async (publicId) => {
 // ========================
 export const deleteUploadedFile = async (filePathOrUrl) => {
   try {
-    // Local file
-    if (filePathOrUrl.startsWith("uploads/")) {
-      if (fs.existsSync(filePathOrUrl)) {
-        fs.unlinkSync(filePathOrUrl);
-      }
-      return true;
-    }
-
-    // Cloudinary URL
+    // فقط Cloudinary URLs
     if (filePathOrUrl.includes("cloudinary.com")) {
       const urlParts = filePathOrUrl.split("/");
       const fileName = urlParts[urlParts.length - 1];
@@ -296,6 +234,7 @@ export const deleteUploadedFile = async (filePathOrUrl) => {
 
     return true;
   } catch (error) {
+    console.error("Delete uploaded file error:", error);
     return false;
   }
 };
@@ -321,6 +260,7 @@ export const extractPublicIdFromUrl = (url) => {
 
     return publicId;
   } catch (error) {
+    console.error("Extract public ID error:", error);
     return null;
   }
 };

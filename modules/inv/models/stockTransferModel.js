@@ -6,7 +6,7 @@ const stockTransferSchema = new mongoose.Schema(
       type: String,
       required: [true, "Transfer status is required"],
       enum: ["draft", "shipping", "delivered", "cancelled"],
-      default: "draft",
+      default: "delivered",
     },
     reference: {
       type: String,
@@ -21,7 +21,10 @@ const stockTransferSchema = new mongoose.Schema(
     to: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Inventory",
-      required: [true, "Destination inventory is required"],
+    },
+    toMobileStock: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "MobileStock",
     },
     products: [
       {
@@ -56,7 +59,7 @@ const stockTransferSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 // Pre-save hook to generate reference if not provided

@@ -9,7 +9,7 @@ const sanitizeObject = (obj, fields) => {
           return null;
         }
       })
-      .filter(Boolean)
+      .filter(Boolean),
   );
 };
 
@@ -365,6 +365,17 @@ export function sanitizeEmployee(employee) {
     ["salary", (e) => e.salary],
     ["employmentDate", (e) => e.employmentDate],
     ["active", (e) => e.active],
+    [
+      "documents",
+      (l) =>
+        l.documents?.length
+          ? l.documents.map((d) => ({
+              fileId: d.fileId,
+              viewLink: d.viewLink,
+              downloadLink: d.downloadLink,
+            }))
+          : [],
+    ],
     ["createdAt", (e) => e.createdAt],
     ["updatedAt", (e) => e.updatedAt],
   ]);
@@ -486,6 +497,7 @@ export function sanitizeStockTransfer(transfer) {
     ["status", (t) => t.status],
     ["from", (t) => t.from],
     ["to", (t) => t.to],
+    ["toMobileStock", (t) => t.toMobileStock],
     [
       "products",
       (t) =>
@@ -673,12 +685,12 @@ export function sanitizeLoanInstallment(installment) {
 
     if (sanitized.status === "pending" && dueDate < today) {
       sanitized.daysOverdue = Math.ceil(
-        (today - dueDate) / (1000 * 60 * 60 * 24)
+        (today - dueDate) / (1000 * 60 * 60 * 24),
       );
       sanitized.status = "overdue";
     } else if (sanitized.status === "pending") {
       sanitized.daysUntilDue = Math.ceil(
-        (dueDate - today) / (1000 * 60 * 60 * 24)
+        (dueDate - today) / (1000 * 60 * 60 * 24),
       );
     }
   }
@@ -686,24 +698,40 @@ export function sanitizeLoanInstallment(installment) {
   return sanitized;
 }
 
-export function sanitizeMobileStock(mobileStock) {
-  return sanitizeObject(mobileStock, [
-    ["id", (ms) => ms._id],
-    ["representative", (ms) => ms.representative],
-    [
-      "goods",
-      (ms) =>
-        ms.goods?.map((good) => ({
-          stock: good.stock,
-          quantity: good.quantity,
-        })),
-    ],
-    ["capacity", (ms) => ms.capacity],
-    ["name", (ms) => ms.name],
-    ["createdAt", (ms) => ms.createdAt],
-    ["updatedAt", (ms) => ms.updatedAt],
-  ]);
-}
+export const sanitizeMobileStock = (mobileStock) => {
+  if (!mobileStock) return null;
+
+  const sanitized = {
+    id: mobileStock._id,
+    representative: mobileStock.representative,
+    capacity: mobileStock.capacity,
+    name: mobileStock.name,
+    year: mobileStock.year,
+    brand: mobileStock.brand,
+    status: mobileStock.status,
+    mobileNumber: mobileStock.mobileNumber,
+    createdAt: mobileStock.createdAt,
+    updatedAt: mobileStock.updatedAt,
+  };
+
+  if (mobileStock.inventorySummary) {
+    sanitized.inventorySummary = mobileStock.inventorySummary;
+  }
+
+  if (mobileStock.topProducts) {
+    sanitized.topProducts = mobileStock.topProducts;
+  }
+
+  if (mobileStock.capacityUsage) {
+    sanitized.capacityUsage = mobileStock.capacityUsage;
+  }
+
+  if (mobileStock.inventory) {
+    sanitized.inventory = mobileStock.inventory;
+  }
+
+  return sanitized;
+};
 
 export function sanitizeSaleOrderInTrip(saleOrder) {
   return sanitizeObject(saleOrder, [
@@ -741,6 +769,10 @@ export function sanitizeTrip(trip) {
     ["sales", (t) => t.sales],
     ["status", (t) => t.status],
     ["tripNumber", (t) => t.tripNumber],
+    ["products", (t) => t.products || []],
+    ["totalProductsValue", (t) => t.totalProductsValue || 0],
+    ["loadedAt", (t) => t.loadedAt],
+    ["completedAt", (t) => t.completedAt],
     ["createdAt", (t) => t.createdAt],
     ["updatedAt", (t) => t.updatedAt],
   ]);

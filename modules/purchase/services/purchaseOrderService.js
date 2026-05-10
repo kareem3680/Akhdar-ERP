@@ -89,7 +89,7 @@ export const getPurchaseOrdersService = asyncHandler(async (req) => {
         { path: "products.productId", select: "name code" },
         { path: "createdBy", select: "name email" },
       ],
-    }
+    },
   );
 
   await logger.info("Fetched all purchase orders", {
@@ -182,7 +182,7 @@ export const updatePurchaseOrderService = asyncHandler(
     if (currentOrder.status !== "draft") {
       throw new ApiError(
         `Cannot update order with status: ${currentOrder.status}`,
-        400
+        400,
       );
     }
 
@@ -203,7 +203,7 @@ export const updatePurchaseOrderService = asyncHandler(
     });
 
     return sanitizePurchaseOrder(updatedOrder);
-  }
+  },
 );
 
 // ========================
@@ -273,7 +273,7 @@ export const updatePurchaseOrderStatusService = asyncHandler(
         });
         throw new ApiError(
           "Unauthorized to update this purchase order status",
-          403
+          403,
         );
       }
     }
@@ -285,7 +285,7 @@ export const updatePurchaseOrderStatusService = asyncHandler(
     const updatedOrder = await PurchaseOrder.findByIdAndUpdate(
       id,
       { status: newStatus },
-      { new: true, runValidators: true }
+      { new: true, runValidators: true },
     );
 
     await logger.info("Purchase order status updated", {
@@ -297,7 +297,7 @@ export const updatePurchaseOrderStatusService = asyncHandler(
     });
 
     return sanitizePurchaseOrder(updatedOrder);
-  }
+  },
 );
 
 // ========================
@@ -332,7 +332,7 @@ export const deliverPurchaseOrderService = asyncHandler(
     if (!["approved", "shipped"].includes(order.status)) {
       throw new ApiError(
         `Cannot deliver order with status: ${order.status}`,
-        400
+        400,
       );
     }
 
@@ -352,13 +352,13 @@ export const deliverPurchaseOrderService = asyncHandler(
 
     // Check if all products are fully delivered
     const allDelivered = updatedProducts.every(
-      (product) => product.remainingQuantity === 0
+      (product) => product.remainingQuantity === 0,
     );
 
     // Update order
     const updateData = {
       products: updatedProducts,
-      status: allDelivered ? "delivered" : "shipped",
+      status: "delivered",
     };
 
     const updatedOrder = await PurchaseOrder.findByIdAndUpdate(id, updateData, {
@@ -380,7 +380,7 @@ export const deliverPurchaseOrderService = asyncHandler(
     });
 
     return sanitizePurchaseOrder(updatedOrder);
-  }
+  },
 );
 
 // ========================
@@ -408,7 +408,7 @@ export const getPurchaseOrdersByStatusService = asyncHandler(
           { path: "supplierId", select: "name email phone" },
           { path: "organizationId", select: "tradeName email" },
         ],
-      }
+      },
     );
 
     await logger.info(`Fetched ${status} purchase orders`, {
@@ -422,5 +422,5 @@ export const getPurchaseOrdersByStatusService = asyncHandler(
       data: result.data.map(sanitizePurchaseOrder),
       paginationResult: result.paginationResult,
     };
-  }
+  },
 );

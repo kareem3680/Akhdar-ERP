@@ -2,6 +2,7 @@ import asyncHandler from "express-async-handler";
 import employeeModel from "../../organization/models/employeeModel.js";
 import payrollModel from "../../accounting/models/payrollModel.js";
 import { sanitizeEmployee } from "../../../utils/sanitizeData.js";
+import { uploadToDrive, deleteFromDrive } from "../../../utils/googleDrive.js";
 import ApiError from "../../../utils/apiError.js";
 import {
   createService,
@@ -67,7 +68,7 @@ const updateRelatedPayrollsHelper = async (employeeId, newSalary) => {
   try {
     const result = await payrollModel.updateMany(
       { employee: employeeId, status: { $ne: "paid" } },
-      { salary: newSalary }
+      { salary: newSalary },
     );
 
     await logger.info("Updated payrolls for employee salary change", {
@@ -119,7 +120,7 @@ const validateRoleHelper = (role) => {
     "admin",
     "employee",
     "manager",
-    "HR",
+    ,
     "CEO",
     "accountant",
     "supervisor",
@@ -135,12 +136,12 @@ const getAllowedRolesForUserHelper = (userRole) => {
       "admin",
       "employee",
       "manager",
-      "HR",
+      ,
       "CEO",
       "accountant",
       "supervisor",
     ],
-    CEO: ["employee", "manager", "HR", "accountant", "supervisor"],
+    CEO: ["employee", "manager", "accountant", "supervisor"],
     HR: ["employee", "manager", "supervisor"],
     manager: ["employee"],
     employee: [], // Employees cannot assign roles
@@ -203,7 +204,7 @@ export const createEmployeeService = asyncHandler(
         "Employee creation failed - national ID already exists",
         {
           nationalId: rest.nationalId,
-        }
+        },
       );
       throw new ApiError("🛑 National ID already exists", 400);
     }
@@ -215,7 +216,7 @@ export const createEmployeeService = asyncHandler(
       });
       throw new ApiError(
         "🛑 Employee must be between 18 and 80 years old",
-        400
+        400,
       );
     }
 
@@ -237,7 +238,7 @@ export const createEmployeeService = asyncHandler(
     if (!rest.bonus && rest.levelOfExperience && rest.salary) {
       rest.bonus = calculateBonusByExperienceHelper(
         rest.levelOfExperience,
-        rest.salary
+        rest.salary,
       );
     }
 
@@ -265,7 +266,123 @@ export const createEmployeeService = asyncHandler(
     });
 
     return sanitizeEmployee(newEmployee);
-  }
+  },
+);
+
+export const addEmployeeDocumentsService = asyncHandler(
+  async ({ employeeId, userId, userRole, files }) => {
+    const employee = await employeeModel.findById(employeeId);
+    if (!employee) {
+      await logger.error("Employee not found", { employeeId });
+      throw new ApiError("🛑 Employee not found", 404);
+    }
+
+    const allowedRoles = ["CEO", "admin"];
+    if (!allowedRoles.includes(userRole)) {
+      await logger.error("Unauthorized document upload attempt", {
+        userId,
+        userRole,
+        employeeId,
+      });
+      throw new ApiError("🛑 You are not authorized to upload documents", 403);
+    }
+
+    if (!files.length) {
+      throw new ApiError("🛑 Please upload at least one document (PDF)", 400);
+    }
+
+    let uploadedDocs = [];
+
+    try {
+      uploadedDocs = await uploadToDrive(files);
+
+      const newDocuments = uploadedDocs.map((doc) => ({
+        fileId: doc.fileId,
+        viewLink: doc.viewLink,
+        downloadLink: doc.downloadLink,
+        uploadedAt: new Date(),
+        uploadedBy: userId,
+      }));
+
+      employee.documents = [...(employee.documents || []), ...newDocuments];
+      await employee.save();
+
+      await logger.info("Employee documents uploaded successfully", {
+        employeeId,
+        employeeName: employee.name,
+        uploadedCount: uploadedDocs.length,
+        uploadedBy: userId,
+        userRole,
+      });
+
+      return {
+        employee: sanitizeEmployee(employee),
+        uploadedCount: uploadedDocs.length,
+        documents: newDocuments.map((doc) => ({
+          fileId: doc.fileId,
+          viewLink: doc.viewLink,
+          downloadLink: doc.downloadLink,
+        })),
+      };
+    } catch (err) {
+      if (uploadedDocs?.length) {
+        try {
+          await deleteFromDrive(uploadedDocs.map((d) => d.fileId));
+          await logger.warn("Cleaned up uploaded documents after failure", {
+            employeeId,
+            deletedFiles: uploadedDocs.length,
+          });
+        } catch (cleanupErr) {
+          await logger.error("Cleanup failed after upload error", {
+            employeeId,
+            error: cleanupErr.message,
+          });
+        }
+      }
+
+      await logger.error("addEmployeeDocumentsService failed", {
+        employeeId,
+        error: err.message,
+        userId,
+        userRole,
+      });
+
+      throw new ApiError("🛑 Failed to upload employee documents", 500);
+    }
+  },
+);
+
+export const deleteEmployeeDocumentService = asyncHandler(
+  async ({ employeeId, fileId, userId, userRole }) => {
+    const allowedRoles = ["CEO", "admin"];
+    if (!allowedRoles.includes(userRole)) {
+      throw new ApiError("🛑 You are not authorized to delete documents", 403);
+    }
+
+    const employee = await employeeModel.findById(employeeId);
+    if (!employee) {
+      throw new ApiError("🛑 Employee not found", 404);
+    }
+
+    const document = employee.documents.find((doc) => doc.fileId === fileId);
+    if (!document) {
+      throw new ApiError("🛑 Document not found", 404);
+    }
+
+    await deleteFromDrive(fileId);
+
+    employee.documents = employee.documents.filter(
+      (doc) => doc.fileId !== fileId,
+    );
+    await employee.save();
+
+    await logger.info("Employee document deleted", {
+      employeeId,
+      fileId,
+      deletedBy: userId,
+      userRole,
+    });
+  },
 );
 
 export const getEmployeesService = asyncHandler(async (req) => {
@@ -279,7 +396,7 @@ export const getEmployeesService = asyncHandler(async (req) => {
         { path: "department", select: "name code" },
         { path: "manager", select: "name email phone employeeId" },
       ],
-    }
+    },
   );
 
   // Logic: Add calculated fields to each employee
@@ -288,7 +405,7 @@ export const getEmployeesService = asyncHandler(async (req) => {
 
     // Calculate experience years
     employeeObj.experienceYears = calculateExperienceYearsHelper(
-      employee.employmentDate
+      employee.employmentDate,
     );
 
     // Calculate age
@@ -320,7 +437,7 @@ export const getSpecificEmployeeService = asyncHandler(async (id) => {
   // Logic: Add calculated fields
   const employeeObj = employee.toObject ? employee.toObject() : employee;
   employeeObj.experienceYears = calculateExperienceYearsHelper(
-    employee.employmentDate
+    employee.employmentDate,
   );
   employeeObj.age = calculateAgeHelper(employee.birthDate);
 
@@ -342,7 +459,7 @@ export const updateEmployeeService = asyncHandler(
       await logger.error("Employee to update not found", { id });
       throw new ApiError(
         `🛑 Cannot update. No employee found with ID: ${id}`,
-        404
+        404,
       );
     }
 
@@ -383,7 +500,7 @@ export const updateEmployeeService = asyncHandler(
       });
       throw new ApiError(
         "🛑 Employee must be between 18 and 80 years old",
-        400
+        400,
       );
     }
 
@@ -412,11 +529,11 @@ export const updateEmployeeService = asyncHandler(
             userRole,
             attemptedRole: body.role,
             allowedRoles,
-          }
+          },
         );
         throw new ApiError(
           "🛑 You are not authorized to assign this role",
-          403
+          403,
         );
       }
 
@@ -445,7 +562,7 @@ export const updateEmployeeService = asyncHandler(
         });
         throw new ApiError(
           "🛑 You cannot assign a role higher than your own",
-          403
+          403,
         );
       }
     }
@@ -486,7 +603,7 @@ export const updateEmployeeService = asyncHandler(
       const baseSalary = body.salary || employee.salary;
       body.bonus = calculateBonusByExperienceHelper(
         body.levelOfExperience,
-        baseSalary
+        baseSalary,
       );
     }
 
@@ -497,7 +614,7 @@ export const updateEmployeeService = asyncHandler(
       ? updatedEmployee.toObject()
       : updatedEmployee;
     employeeObj.experienceYears = calculateExperienceYearsHelper(
-      updatedEmployee.employmentDate
+      updatedEmployee.employmentDate,
     );
     employeeObj.age = calculateAgeHelper(updatedEmployee.birthDate);
 
@@ -508,7 +625,7 @@ export const updateEmployeeService = asyncHandler(
     });
 
     return sanitizeEmployee(employeeObj);
-  }
+  },
 );
 
 export const deleteEmployeeService = asyncHandler(
@@ -519,7 +636,7 @@ export const deleteEmployeeService = asyncHandler(
       await logger.error("Employee to delete not found", { id });
       throw new ApiError(
         `🛑 Cannot delete. No employee found with ID: ${id}`,
-        404
+        404,
       );
     }
 
@@ -547,7 +664,7 @@ export const deleteEmployeeService = asyncHandler(
       });
       throw new ApiError(
         "🛑 You are not authorized to delete this employee",
-        403
+        403,
       );
     }
 
@@ -560,11 +677,11 @@ export const deleteEmployeeService = asyncHandler(
           userRoleLevel,
           employeeRole: employee.role,
           employeeRoleLevel,
-        }
+        },
       );
       throw new ApiError(
         "🛑 You cannot delete an employee with a higher role level",
-        403
+        403,
       );
     }
 
@@ -595,7 +712,7 @@ export const deleteEmployeeService = asyncHandler(
     // Mark associated payroll records as cancelled
     await payrollModel.updateMany(
       { employee: id, status: { $ne: "paid" } },
-      { status: "cancelled", cancelledAt: new Date() }
+      { status: "cancelled", cancelledAt: new Date() },
     );
 
     await logger.info("Employee soft-deleted", {
@@ -608,7 +725,7 @@ export const deleteEmployeeService = asyncHandler(
     });
 
     return null;
-  }
+  },
 );
 
 export const activateEmployeeService = asyncHandler(
@@ -616,14 +733,14 @@ export const activateEmployeeService = asyncHandler(
     const employee = await employeeModel.findByIdAndUpdate(
       id,
       { active: true, deletedAt: null },
-      { new: true }
+      { new: true },
     );
 
     if (!employee) {
       await logger.error("Employee to activate not found", { id });
       throw new ApiError(
         `🛑 Cannot activate. No employee found with ID: ${id}`,
-        404
+        404,
       );
     }
 
@@ -650,11 +767,11 @@ export const activateEmployeeService = asyncHandler(
           userRole,
           employeeRole: employee.role,
           employeeId: id,
-        }
+        },
       );
       throw new ApiError(
         "🛑 You are not authorized to activate this employee",
-        403
+        403,
       );
     }
 
@@ -667,24 +784,24 @@ export const activateEmployeeService = asyncHandler(
           userRoleLevel,
           employeeRole: employee.role,
           employeeRoleLevel,
-        }
+        },
       );
       throw new ApiError(
         "🛑 You cannot activate an employee with a higher role level",
-        403
+        403,
       );
     }
 
     // Reactivate associated payroll records
     await payrollModel.updateMany(
       { employee: id, status: "cancelled" },
-      { status: "pending", cancelledAt: null }
+      { status: "pending", cancelledAt: null },
     );
 
     // Logic: Add calculated fields to response
     const employeeObj = employee.toObject ? employee.toObject() : employee;
     employeeObj.experienceYears = calculateExperienceYearsHelper(
-      employee.employmentDate
+      employee.employmentDate,
     );
     employeeObj.age = calculateAgeHelper(employee.birthDate);
 
@@ -697,5 +814,5 @@ export const activateEmployeeService = asyncHandler(
     });
 
     return sanitizeEmployee(employeeObj);
-  }
+  },
 );

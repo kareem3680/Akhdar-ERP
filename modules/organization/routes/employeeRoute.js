@@ -2,6 +2,7 @@ import { Router } from "express";
 const router = Router();
 
 import { singleUpload } from "../../../middlewares/uploadMiddleware.js";
+import { uploadPDFs } from "../../../middlewares/uploadDocMiddleware.js";
 import {
   createEmployee,
   getEmployees,
@@ -9,6 +10,8 @@ import {
   updateEmployee,
   deleteEmployee,
   activateEmployee,
+  addEmployeeDocuments,
+  deleteEmployeeDocument,
 } from "../controllers/employeeController.js";
 import {
   createEmployeeValidator,
@@ -16,6 +19,7 @@ import {
   getEmployeeValidator,
   deleteEmployeeValidator,
   activateEmployeeValidator,
+  addEmployeeDocumentsValidator,
 } from "../validators/employeeValidator.js";
 import {
   protect,
@@ -38,8 +42,24 @@ router
     checkSelfManager,
     checkAgeRange,
     checkEmploymentDate,
-    createEmployee
+    createEmployee,
   );
+
+router.post(
+  "/documents/:employeeId",
+  protect,
+  allowedTo("CEO", "admin"),
+  uploadPDFs,
+  addEmployeeDocumentsValidator,
+  addEmployeeDocuments,
+);
+
+router.delete(
+  "/documents/:employeeId/:fileId",
+  protect,
+  allowedTo("CEO", "admin"),
+  deleteEmployeeDocument,
+);
 
 router
   .route("/:employeeId")
@@ -52,13 +72,13 @@ router
     checkSelfManager,
     checkAgeRange,
     checkEmploymentDate,
-    updateEmployee
+    updateEmployee,
   )
   .delete(
     protect,
     allowedTo("CEO", "admin"),
     deleteEmployeeValidator,
-    deleteEmployee
+    deleteEmployee,
   );
 
 router
@@ -67,7 +87,7 @@ router
     protect,
     allowedTo("CEO", "admin"),
     activateEmployeeValidator,
-    activateEmployee
+    activateEmployee,
   );
 
 export default router;

@@ -2,30 +2,7 @@ import { check } from "express-validator";
 import validatorMiddleWare from "../../../middlewares/validatorMiddleware.js";
 
 export const createMobileStockValidator = [
-  check("representative")
-    .notEmpty()
-    .withMessage("Representative is required")
-    .isMongoId()
-    .withMessage("Invalid representative ID format"),
-
-  check("goods")
-    .isArray({ min: 1 })
-    .withMessage("Goods must be an array with at least one item"),
-
-  check("goods.*.stock")
-    .notEmpty()
-    .withMessage("Stock is required")
-    .isMongoId()
-    .withMessage("Invalid stock ID format"),
-
-  check("goods.*.quantity")
-    .notEmpty()
-    .withMessage("Quantity is required")
-    .isNumeric()
-    .withMessage("Quantity must be a number")
-    .isInt({ min: 1 })
-    .withMessage("Quantity must be at least 1"),
-
+  check("representative").notEmpty().withMessage("Representative is required"),
   check("capacity")
     .notEmpty()
     .withMessage("Capacity is required")
@@ -39,6 +16,20 @@ export const createMobileStockValidator = [
     .withMessage("Name is required")
     .isLength({ min: 2 })
     .withMessage("Name must be at least 2 characters"),
+
+  check("year")
+    .notEmpty()
+    .withMessage("year is required")
+    .isNumeric()
+    .withMessage("year must be a number")
+    .isInt({ min: 2000 })
+    .withMessage("year must be at least 2000"),
+
+  check("brand")
+    .notEmpty()
+    .withMessage("brand is required")
+    .isLength({ min: 2 })
+    .withMessage("brand must be at least 2 characters"),
 
   validatorMiddleWare,
 ];

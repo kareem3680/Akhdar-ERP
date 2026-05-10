@@ -21,7 +21,7 @@ export const checkAgeRange = asyncHandler(async (req, res, next) => {
   if (birthDate) {
     const birth = new Date(birthDate);
     const today = new Date();
-    const age = today.getFullYear() - birth.getFullYear();
+    let age = today.getFullYear() - birth.getFullYear();
 
     // Adjust age if birthday hasn't occurred this year
     const monthDiff = today.getMonth() - birth.getMonth();
@@ -84,8 +84,8 @@ export const validateSalaryByJobTitle = asyncHandler(async (req, res, next) => {
             `${
               keyword.charAt(0).toUpperCase() + keyword.slice(1)
             } salary should be at least ${minSalary}`,
-            400
-          )
+            400,
+          ),
         );
       }
     }
@@ -133,7 +133,7 @@ export const preventCircularManagement = asyncHandler(
 
         if (currentManager.toString() === employeeId) {
           return next(
-            new ApiError("Cannot create circular management hierarchy", 400)
+            new ApiError("Cannot create circular management hierarchy", 400),
           );
         }
 
@@ -150,7 +150,7 @@ export const preventCircularManagement = asyncHandler(
     }
 
     next();
-  }
+  },
 );
 
 // Middleware to validate role based on user's permissions
@@ -180,7 +180,10 @@ export const validateRoleAssignment = asyncHandler(async (req, res, next) => {
 
     if (!userAllowedRoles.includes(role)) {
       return next(
-        new ApiError(`You are not authorized to assign the '${role}' role`, 403)
+        new ApiError(
+          `You are not authorized to assign the '${role}' role`,
+          403,
+        ),
       );
     }
   }
